@@ -4,11 +4,14 @@ import { assign, createMachine, Interpreter, State } from "xstate";
 import { PlazaRoomState } from "./types/Room";
 
 import { CONFIG } from "lib/config";
-import { Bumpkin, FactionName } from "features/game/types/game";
-import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { SPAWNS } from "./lib/spawn";
-import { Moderation } from "features/game/lib/gameMachine";
 import { MAX_PLAYERS } from "./lib/availableRooms";
+
+type Bumpkin = any;
+type FactionName = string;
+type Moderation = { kicked: any[]; muted: any[] };
+
+const INITIAL_BUMPKIN: Bumpkin = {};
 
 export type Scenes = {
   plaza: Room<PlazaRoomState> | undefined;

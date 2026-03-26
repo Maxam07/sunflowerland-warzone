@@ -1,18 +1,4 @@
-import Decimal from "decimal.js-light";
-import { OFFLINE_FARM } from "features/game/lib/landData";
-import { GameState } from "features/game/types/game";
 import { MinigameSessionResponse } from "features/portal/actions/minigameEconomy";
-
-export function buildClientGameState(
-  farm: MinigameSessionResponse["farm"],
-): GameState {
-  const base = OFFLINE_FARM;
-  return {
-    ...base,
-    bumpkin: (farm.bumpkin as GameState["bumpkin"]) ?? base.bumpkin,
-    balance: new Decimal(farm.balance || 0),
-  } as GameState;
-}
 
 export function attemptsFromMinigame(
   minigame: MinigameSessionResponse["minigame"],

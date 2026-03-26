@@ -6,7 +6,6 @@ import React, {
   useState,
 } from "react";
 import { CONFIG } from "lib/config";
-import { GameState } from "features/game/types/game";
 import { getUrl } from "features/portal/actions/loadPortal";
 import { MinigameSessionResponse, postMinigameAction } from "features/portal/actions/minigameEconomy";
 import type { BootstrapContext } from "./portalBootstrapMachine";
@@ -26,7 +25,6 @@ export type ChickenRescueSessionValue = {
   farmId: number;
   jwt: string;
   farm: MinigameSessionResponse["farm"];
-  gameState: GameState;
   minigame: MinigameSessionResponse["minigame"];
   actions: Record<string, unknown>;
   dispatchAction: (input: DispatchMinigameActionInput) => boolean;
@@ -107,7 +105,6 @@ export function ChickenRescueSessionProvider({
       farmId: bootstrap.id,
       jwt: bootstrap.jwt as string,
       farm: bootstrap.farm,
-      gameState: bootstrap.state,
       minigame,
       actions: bootstrap.actions,
       dispatchAction,
@@ -118,7 +115,6 @@ export function ChickenRescueSessionProvider({
       bootstrap.id,
       bootstrap.jwt,
       bootstrap.farm,
-      bootstrap.state,
       bootstrap.actions,
       minigame,
       dispatchAction,

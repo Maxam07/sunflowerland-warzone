@@ -1,17 +1,23 @@
-import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { SpeechBubble } from "./SpeechBubble";
-import { buildNPCSheets } from "features/bumpkins/actions/buildNPCSheets";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { Label } from "./Label";
 import debounce from "lodash.debounce";
 import { Player } from "../types/Room";
 import { NPCName, acknowledgedNPCs } from "lib/npcs";
-import { ReactionName } from "features/pumpkinPlaza/components/Reactions";
 import { getAnimationUrl } from "../lib/animations";
-import { FactionName, InventoryItemName } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { ITEM_IDS } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
+
+const SQUARE_WIDTH = 16;
+
+// Minimal stubs replacing features/game and features/pumpkinPlaza types
+type FactionName = string;
+type InventoryItemName = string;
+type ReactionName = string;
+
+// ITEM_IDS maps aura name -> numeric ID for asset URLs
+const ITEM_IDS: Record<string, number> = {};
+// ITEM_DETAILS maps item name -> { image } for reactions
+const ITEM_DETAILS: Record<string, { image: string }> = {};
 
 const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
@@ -160,10 +166,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.walkingAnimationKey = `${keyName}-bumpkin-walking`;
     this.digAnimationKey = `${keyName}-bumpkin-dig`;
     this.drillAnimationKey = `${keyName}-bumpkin-drilling`;
-
-    await buildNPCSheets({
-      parts: this.clothing,
-    }); //Removing this causes Aura to not show onload
 
     if (scene.textures.exists(this.idleSpriteKey)) {
       // If we have idle sheet then we can create the idle animation and set the sprite up straight away

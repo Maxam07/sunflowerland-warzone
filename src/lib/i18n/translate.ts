@@ -2,7 +2,8 @@ import i18n from "lib/i18n";
 import { TOptions } from "i18next";
 import { TranslationKeys } from "./dictionaries/types";
 import { LanguageCode } from "./dictionaries/dictionary";
-import { TranslatedDescriptions } from "features/game/types/images";
+
+type TranslatedDescriptions = { en: string } & Partial<Record<LanguageCode, string>>;
 
 export const translate = (
   key: TranslationKeys,

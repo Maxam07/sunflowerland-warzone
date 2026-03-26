@@ -1,5 +1,3 @@
-import { makeGame } from "features/game/lib/transforms";
-import { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
@@ -39,9 +37,7 @@ export async function loadPortal(request: Request) {
     throw new Error(ERRORS.PORTAL_LOGIN_ERROR);
   }
 
-  const data: { farm: GameState } = await response.json();
+  const data: { farm: any } = await response.json();
 
-  const game = makeGame(data.farm);
-
-  return { game };
+  return { game: data.farm };
 }

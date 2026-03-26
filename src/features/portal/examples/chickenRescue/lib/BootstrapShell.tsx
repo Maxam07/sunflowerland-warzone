@@ -4,7 +4,7 @@ import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { Loading } from "features/auth/components";
+import { Loading } from "features/auth/components/Loading";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CONFIG } from "lib/config";
 import { goHome } from "./chickenRescueExit";

@@ -2,8 +2,9 @@ import { Schema, MapSchema, ArraySchema } from "@colyseus/schema";
 import { NPCName } from "lib/npcs";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { SceneId } from "../mmoMachine";
-import { Moderation } from "features/game/lib/gameMachine";
-import { FactionName } from "features/game/types/game";
+
+type Moderation = { kicked: any[]; muted: any[] };
+type FactionName = string;
 
 export interface InputData {
   x: number;

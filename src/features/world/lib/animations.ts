@@ -36,3 +36,11 @@ export const getAnimationUrl = (
 ) => {
   return `${CONFIG.ANIMATION_URL}/animate/0_v1_${tokenUriBuilder(bumpkinParts)}/${animation}`;
 };
+
+/** Farm / world NPC style (animated WebP), e.g. `["idle-small"]`. */
+export const getAnimatedWebpUrl = (
+  bumpkinParts: BumpkinParts,
+  animations: string[],
+) => {
+  return `${CONFIG.ANIMATION_URL}/animated_webp/0_v1_${tokenUriBuilder(bumpkinParts)}/${animations.join("_")}`;
+};

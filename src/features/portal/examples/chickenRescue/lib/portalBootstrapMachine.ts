@@ -1,16 +1,19 @@
 import { assign, createMachine, Interpreter, State } from "xstate";
-import { GameState } from "features/game/types/game";
+import jwt_decode from "jwt-decode";
 import { CONFIG } from "lib/config";
-import { decodeToken } from "features/auth/actions/login";
 import { getUrl } from "features/portal/actions/loadPortal";
 import {
   getMinigameSession,
   MinigameSessionResponse,
   postMinigameAction,
 } from "features/portal/actions/minigameEconomy";
-import { buildClientGameState } from "./chickenRescueMachine";
 import { CHICKEN_RESCUE_CLIENT_ACTIONS } from "./chickenRescueClientActions";
 import { emptySessionMinigame, normalizeMinigameFromApi } from "./minigameRuntimeHelpers";
+
+function decodeToken(token: string): { farmId?: number } {
+  const decoded = jwt_decode(token) as any;
+  return { ...decoded, ...decoded.properties };
+}
 
 const getJWT = () => {
   return new URLSearchParams(window.location.search).get("jwt");
@@ -19,7 +22,6 @@ const getJWT = () => {
 export type BootstrapContext = {
   id: number;
   jwt: string;
-  state: GameState;
   farm: MinigameSessionResponse["farm"];
   minigame: MinigameSessionResponse["minigame"];
   actions: Record<string, unknown>;
@@ -73,7 +75,6 @@ export const portalBootstrapMachine = createMachine({
   context: {
     id: 0,
     jwt: getJWT() ?? "",
-    state: buildClientGameState({ balance: "0" }) as GameState,
     farm: { balance: "0" },
     minigame: emptySessionMinigame(),
     actions: {},
@@ -103,7 +104,6 @@ export const portalBootstrapMachine = createMachine({
               },
               actions: CHICKEN_RESCUE_CLIENT_ACTIONS as Record<string, unknown>,
               farmId: 0,
-              state: buildClientGameState(farm),
             };
           }
 
@@ -127,13 +127,11 @@ export const portalBootstrapMachine = createMachine({
             minigame,
             actions: session.actions,
             farmId,
-            state: buildClientGameState(session.farm),
           };
         },
         onDone: {
           target: "sessionReady",
           actions: assign({
-            state: (_c, e: { data: any }) => e.data.state,
             farm: (_c, e: { data: any }) => e.data.farm,
             minigame: (_c, e: { data: any }) =>
               normalizeMinigameFromApi(e.data.minigame),

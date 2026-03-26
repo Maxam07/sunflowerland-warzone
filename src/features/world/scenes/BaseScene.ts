@@ -2,37 +2,41 @@ import Phaser, { Physics } from "phaser";
 
 import VirtualJoystick from "phaser3-rex-plugins/plugins/virtualjoystick.js";
 
-import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
-import { interactableModalManager } from "../ui/InteractableModals";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
-import { npcModalManager } from "../ui/NPCModals";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { EventObject } from "xstate";
 import { SPAWNS } from "../lib/spawn";
 import { AudioController, WalkAudioController } from "../lib/AudioController";
 import { createErrorLogger } from "lib/errorLogger";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { Footsteps } from "assets/sound-effects/soundEffects";
 import {
   MachineInterpreter as MMOMachineInterpreter,
   SceneId,
 } from "../mmoMachine";
 import { Player, PlazaRoomState } from "../types/Room";
-import { playerModalManager } from "../ui/PlayerModals";
-import { FactionName, GameState } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import { Room } from "colyseus.js";
 
 import defaultTilesetConfig from "assets/map/tileset.json";
 
-import { MachineInterpreter } from "features/game/lib/gameMachine";
-import { MachineInterpreter as AuthMachineInterpreter } from "features/auth/lib/authMachine";
 import { PhaserNavMesh } from "phaser-navmesh";
 import {
   AUDIO_MUTED_EVENT,
   getAudioMutedSetting,
 } from "lib/utils/hooks/useIsAudioMuted";
+
+const SQUARE_WIDTH = 16;
+
+type Coordinates = { x: number; y: number };
+type FactionName = "sunflorians" | "bumpkins" | "goblins" | "nightshades";
+
+// Stub modal managers - SFL world UI has been removed
+const interactableModalManager = { open: (_id: string) => {} };
+const npcModalManager = { open: (_npc: string) => {} };
+const playerModalManager = {
+  open: (_opts: { id: number; clothing: any; experience: number }) => {},
+};
 
 export const WALKING_SPEED = 40;
 
@@ -503,7 +507,7 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   public get gameState() {
-    return this.registry.get("gameState") as GameState;
+    return this.registry.get("gameState") as any;
   }
 
   public get id() {
@@ -511,11 +515,11 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   public get gameService() {
-    return this.registry.get("gameService") as MachineInterpreter;
+    return this.registry.get("gameService") as any;
   }
 
   public get authService() {
-    return this.registry.get("authService") as AuthMachineInterpreter;
+    return this.registry.get("authService") as any;
   }
 
   public get username() {
@@ -547,7 +551,7 @@ export abstract class BaseScene extends Phaser.Scene {
     y: number;
     farmId: number;
     username?: string;
-    faction?: FactionName;
+    faction?: string;
     clothing: Player["clothing"];
     npc?: NPCName;
     experience?: number;
@@ -592,7 +596,7 @@ export abstract class BaseScene extends Phaser.Scene {
 
     if (!npc) {
       const color = faction
-        ? FACTION_NAME_COLORS[faction as FactionName]
+        ? (FACTION_NAME_COLORS[faction as keyof typeof FACTION_NAME_COLORS] ?? "#fff")
         : "#fff";
 
       const nameTag = this.createPlayerText({
@@ -750,7 +754,7 @@ export abstract class BaseScene extends Phaser.Scene {
       this.mmoServer?.send(0, { faction });
       this.checkAndUpdateNameColor(
         this.currentPlayer,
-        faction ? FACTION_NAME_COLORS[faction] : "white",
+        faction ? (FACTION_NAME_COLORS[faction as keyof typeof FACTION_NAME_COLORS] ?? "white") : "white",
       );
     }
 
@@ -958,7 +962,7 @@ export abstract class BaseScene extends Phaser.Scene {
       if (this.playerEntities[sessionId]) {
         const faction = player.faction;
         const color = faction
-          ? FACTION_NAME_COLORS[faction as FactionName]
+          ? FACTION_NAME_COLORS[faction as keyof typeof FACTION_NAME_COLORS] ?? "#fff"
           : "#fff";
 
         this.checkAndUpdateNameColor(this.playerEntities[sessionId], color);

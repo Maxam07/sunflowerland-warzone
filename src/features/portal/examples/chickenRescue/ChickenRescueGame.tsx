@@ -4,16 +4,15 @@ import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
 import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
 
 import { Preloader } from "features/world/scenes/Preloader";
-import { GameState } from "features/game/types/game";
 import { ChickenRescueScene } from "./ChickenRescueScene";
 import type { ChickenRescuePhaserApiRef } from "./lib/chickenRescuePhaserApi";
 
 export const ChickenRescueGame: React.FC<{
-  gameState: GameState;
+  bumpkin: unknown;
   farmId: number;
   phaserApiRef: ChickenRescuePhaserApiRef;
   onGameReady?: (game: Game) => void;
-}> = ({ gameState, farmId, phaserApiRef, onGameReady }) => {
+}> = ({ bumpkin, farmId, phaserApiRef, onGameReady }) => {
   const game = useRef<Game>();
 
   const scene = "chicken_rescue";
@@ -68,7 +67,7 @@ export const ChickenRescueGame: React.FC<{
     });
 
     game.current.registry.set("initialScene", scene);
-    game.current.registry.set("gameState", gameState);
+    game.current.registry.set("gameState", { bumpkin });
     game.current.registry.set("id", farmId);
     game.current.registry.set("phaserApiRef", phaserApiRef);
 

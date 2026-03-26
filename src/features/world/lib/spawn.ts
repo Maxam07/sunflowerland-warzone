@@ -1,4 +1,4 @@
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+type Coordinates = { x: number; y: number };
 import { SceneId } from "../mmoMachine";
 import { CONFIG } from "lib/config";
 

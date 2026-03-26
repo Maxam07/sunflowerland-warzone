@@ -30,7 +30,7 @@ import { ChickenRescueHUD } from "./components/ChickenRescueHUD";
 export const ChickenRescueGamePage: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useAppTranslation();
-  const { minigame, gameState, farmId, dispatchAction } =
+  const { minigame, farm, farmId, dispatchAction } =
     useChickenRescueSession();
 
   const scoreRef = useRef(0);
@@ -93,7 +93,7 @@ export const ChickenRescueGamePage: React.FC = () => {
     <GameRunProvider value={gameRunValue}>
       <div className="relative min-h-screen w-full bg-black">
         <ChickenRescueGame
-          gameState={gameState}
+          bumpkin={farm?.bumpkin}
           farmId={farmId}
           phaserApiRef={phaserApiRef}
         />

@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
+import { DynamicNFT } from "components/bumpkin/DynamicNFT";
 
 import {
   pixelDarkBorderStyle,

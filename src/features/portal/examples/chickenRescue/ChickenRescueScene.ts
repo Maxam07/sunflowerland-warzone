@@ -2,19 +2,20 @@ import mapJson from "assets/map/chicken_rescue.json";
 import { SceneId } from "features/world/mmoMachine";
 import { BaseScene, WALKING_SPEED } from "features/world/scenes/BaseScene";
 import { ChickenContainer } from "./ChickenContainer";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { SQUARE_WIDTH } from "features/game/lib/constants";
 import type { ChickenRescuePhaserApiRef } from "./lib/chickenRescuePhaserApi";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
   BoundingBox,
   isOverlapping,
   randomEmptyPosition,
-} from "features/game/expansion/placeable/lib/collisionDetection";
+} from "./lib/collisionDetection";
 import { BumpkinContainer } from "features/world/containers/BumpkinContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { SleepingChickenContainer } from "./SleepingChickenContainer";
 import { isTouchDevice } from "features/world/lib/device";
+
+type Coordinates = { x: number; y: number };
+const SQUARE_WIDTH = 16;
 
 const DISTANCE = 16;
 

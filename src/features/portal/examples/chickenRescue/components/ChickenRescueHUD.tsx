@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+const PIXEL_SCALE = 2.625;
 import { SUNNYSIDE } from "assets/sunnyside";
 import worldIcon from "assets/icons/world.png";
 import { HudContainer } from "components/ui/HudContainer";
