@@ -51,6 +51,8 @@ export type ProducingEntry = {
   outputToken: string;
   startedAt: number;
   completesAt: number;
+  /** When set, ties this job to a balance line (e.g. which chicken type owns the timer). */
+  capByBalance?: string;
 };
 
 export type DailyMintBucket = {
@@ -225,6 +227,19 @@ function applyBurns(
   return undefined;
 }
 
+function coinJobsOnLine(
+  producing: MinigameRuntimeState["producing"],
+  outputToken: string,
+  line: string | undefined,
+): number {
+  return Object.values(producing).filter((p) => {
+    if (p.outputToken !== outputToken) return false;
+    if (line === undefined) return true;
+    const jobLine = p.capByBalance ?? "GoblinChicken";
+    return jobLine === line;
+  }).length;
+}
+
 function applyProduce(
   balances: Record<string, number>,
   producing: MinigameRuntimeState["producing"],
@@ -233,15 +248,20 @@ function applyProduce(
 ): { error?: string; producingId?: string } {
   if (!produce) return {};
   for (const [outputToken, rule] of Object.entries(produce)) {
-    const active = Object.values(producing).filter(
+    const activeGlobal = Object.values(producing).filter(
       (p) => p.outputToken === outputToken,
     ).length;
-    if (active >= rule.limit) {
+    if (activeGlobal >= rule.limit) {
       return { error: `Production limit reached for ${outputToken}` };
     }
     if (rule.capByBalance !== undefined) {
       const cap = getBalance(balances, rule.capByBalance);
-      if (active >= cap) {
+      const activeOnLine = coinJobsOnLine(
+        producing,
+        outputToken,
+        rule.capByBalance,
+      );
+      if (activeOnLine >= cap) {
         return {
           error: `Not enough ${rule.capByBalance} capacity for new ${outputToken} production`,
         };
@@ -252,6 +272,9 @@ function applyProduce(
       outputToken,
       startedAt: now,
       completesAt: now + rule.msToComplete,
+      ...(rule.capByBalance !== undefined
+        ? { capByBalance: rule.capByBalance }
+        : {}),
     };
     return { producingId: id };
   }

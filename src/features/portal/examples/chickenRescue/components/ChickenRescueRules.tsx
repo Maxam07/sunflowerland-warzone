@@ -4,6 +4,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { pixelSpeechBubbleBorderStyle } from "features/game/lib/style";
 
 export const MinigameCoins: React.FC<{ coinsLeft: number }> = ({
   coinsLeft,
@@ -22,13 +24,15 @@ export const MinigameCoins: React.FC<{ coinsLeft: number }> = ({
 };
 
 interface Props {
-  onAcknowledged: () => void;
+  onStartBasic: () => void;
+  onStartAdvanced: () => void;
   onClose: () => void;
   coinsLeft: number;
 }
 
 export const ChickenRescueRules: React.FC<Props> = ({
-  onAcknowledged,
+  onStartBasic,
+  onStartAdvanced,
   onClose,
   coinsLeft,
 }) => {
@@ -38,12 +42,23 @@ export const ChickenRescueRules: React.FC<Props> = ({
     <>
       <div>
         <div className="w-full relative flex justify-between p-1 items-center mb-2">
-          <Label type="default" icon={SUNNYSIDE.npcs.goblinHead}>
+          <Label type="default" icon={SUNNYSIDE.npcs.bumpkin}>
             {t("minigame.chickenRescue")}
           </Label>
           <MinigameCoins coinsLeft={coinsLeft} />
         </div>
-        <p className="text-sm px-1 mb-2">{t("minigame.chickenRescueHelp")}</p>
+        <div
+          className="text-sm text-[#3e2731] mb-2 ml-0.5"
+          style={{
+            ...pixelSpeechBubbleBorderStyle,
+            padding: `${PIXEL_SCALE * 2}px ${PIXEL_SCALE * 3}px`,
+            maxWidth: `${PIXEL_SCALE * 120}px`,
+          }}
+        >
+          <p className="whitespace-pre-line leading-snug font-medium">
+            {t("minigame.chickenRescueBumpkinDialogue")}
+          </p>
+        </div>
       </div>
       <div className="flex space-x-1">
         <Button
@@ -57,11 +72,19 @@ export const ChickenRescueRules: React.FC<Props> = ({
         <Button
           className="mt-1 whitespace-nowrap capitalize"
           onClick={() => {
-            onAcknowledged();
+            onStartBasic();
           }}
           disabled={coinsLeft <= 0}
         >
-          {t("start")}
+          Basic Run (1 Coin)
+        </Button>
+        <Button
+          className="mt-1 whitespace-nowrap capitalize"
+          onClick={() => {
+            onStartAdvanced();
+          }}
+        >
+          Advanced Run (1 Nugget)
         </Button>
       </div>
     </>

@@ -4937,6 +4937,8 @@ const minigame: Record<Minigame, string> = {
   "minigame.playNow": ENGLISH_TERMS["minigame.playNow"],
   "minigame.purchase": ENGLISH_TERMS["minigame.purchase"],
   "minigame.chickenRescueHelp": ENGLISH_TERMS["minigame.chickenRescueHelp"],
+  "minigame.chickenRescueBumpkinDialogue":
+    ENGLISH_TERMS["minigame.chickenRescueBumpkinDialogue"],
   "minigame.discovered.one": ENGLISH_TERMS["minigame.discovered.one"],
   "minigame.discovered.two": ENGLISH_TERMS["minigame.discovered.two"],
   "minigame.communityEvent": ENGLISH_TERMS["minigame.communityEvent"],
@@ -4974,6 +4976,14 @@ const minigame: Record<Minigame, string> = {
     ENGLISH_TERMS["minigame.startNextCoinDrop"],
   "minigame.buyGoblinChicken": ENGLISH_TERMS["minigame.buyGoblinChicken"],
   "minigame.coinDropCooking": ENGLISH_TERMS["minigame.coinDropCooking"],
+  "minigame.coinChickenReadyInModal":
+    ENGLISH_TERMS["minigame.coinChickenReadyInModal"],
+  "minigame.coinChickenCollectFlash":
+    ENGLISH_TERMS["minigame.coinChickenCollectFlash"],
+  "minigame.coinChickenHomeTileAriaLabel":
+    ENGLISH_TERMS["minigame.coinChickenHomeTileAriaLabel"],
+  "minigame.coinChickenIntroStart":
+    ENGLISH_TERMS["minigame.coinChickenIntroStart"],
   "minigame.goblinChickensOwned":
     ENGLISH_TERMS["minigame.goblinChickensOwned"],
   "minigame.coop": ENGLISH_TERMS["minigame.coop"],
@@ -5016,6 +5026,8 @@ const minigame: Record<Minigame, string> = {
   "minigame.portalShopSubtitle":
     ENGLISH_TERMS["minigame.portalShopSubtitle"],
   "minigame.shopBack": ENGLISH_TERMS["minigame.shopBack"],
+  "minigame.shopChickenOwnedAria":
+    ENGLISH_TERMS["minigame.shopChickenOwnedAria"],
   "minigame.shopConfirm": ENGLISH_TERMS["minigame.shopConfirm"],
   "minigame.shopPriceLabel": ENGLISH_TERMS["minigame.shopPriceLabel"],
   "minigame.shopReceiveLabel": ENGLISH_TERMS["minigame.shopReceiveLabel"],
@@ -5032,6 +5044,101 @@ const minigame: Record<Minigame, string> = {
     ENGLISH_TERMS["minigame.shopCluckcoinConfirm"],
   "minigame.shopInsufficientNuggets":
     ENGLISH_TERMS["minigame.shopInsufficientNuggets"],
+  "minigame.shopBuyCoinsName": ENGLISH_TERMS["minigame.shopBuyCoinsName"],
+  "minigame.shopBuyCoinsListBlurb":
+    ENGLISH_TERMS["minigame.shopBuyCoinsListBlurb"],
+  "minigame.shopBuyCoinsDetail":
+    ENGLISH_TERMS["minigame.shopBuyCoinsDetail"],
+  "minigame.shopBuyCoinsPriceValue":
+    ENGLISH_TERMS["minigame.shopBuyCoinsPriceValue"],
+  "minigame.shopBuyCoinsReceiveValue":
+    ENGLISH_TERMS["minigame.shopBuyCoinsReceiveValue"],
+  "minigame.shopBuyCoinsConfirm":
+    ENGLISH_TERMS["minigame.shopBuyCoinsConfirm"],
+  "minigame.shopInsufficientCluckcoin1":
+    ENGLISH_TERMS["minigame.shopInsufficientCluckcoin1"],
+  "minigame.shopGoblinChickenName":
+    ENGLISH_TERMS["minigame.shopGoblinChickenName"],
+  "minigame.shopGoblinChickenListBlurb":
+    ENGLISH_TERMS["minigame.shopGoblinChickenListBlurb"],
+  "minigame.shopGoblinChickenDetail":
+    ENGLISH_TERMS["minigame.shopGoblinChickenDetail"],
+  "minigame.shopGoblinChickenPriceValue":
+    ENGLISH_TERMS["minigame.shopGoblinChickenPriceValue"],
+  "minigame.shopGoblinChickenReceiveValue":
+    ENGLISH_TERMS["minigame.shopGoblinChickenReceiveValue"],
+  "minigame.shopGoblinChickenConfirm":
+    ENGLISH_TERMS["minigame.shopGoblinChickenConfirm"],
+  "minigame.shopInsufficientCluckcoin":
+    ENGLISH_TERMS["minigame.shopInsufficientCluckcoin"],
+  "minigame.shopLoveChickenName": ENGLISH_TERMS["minigame.shopLoveChickenName"],
+  "minigame.shopLoveChickenListBlurb":
+    ENGLISH_TERMS["minigame.shopLoveChickenListBlurb"],
+  "minigame.shopLoveChickenDetail":
+    ENGLISH_TERMS["minigame.shopLoveChickenDetail"],
+  "minigame.shopLoveChickenPriceValue":
+    ENGLISH_TERMS["minigame.shopLoveChickenPriceValue"],
+  "minigame.shopLoveChickenReceiveValue":
+    ENGLISH_TERMS["minigame.shopLoveChickenReceiveValue"],
+  "minigame.shopLoveChickenConfirm":
+    ENGLISH_TERMS["minigame.shopLoveChickenConfirm"],
+  "minigame.shopAlienChickenName":
+    ENGLISH_TERMS["minigame.shopAlienChickenName"],
+  "minigame.shopAlienChickenListBlurb":
+    ENGLISH_TERMS["minigame.shopAlienChickenListBlurb"],
+  "minigame.shopAlienChickenDetail":
+    ENGLISH_TERMS["minigame.shopAlienChickenDetail"],
+  "minigame.shopAlienChickenPriceValue":
+    ENGLISH_TERMS["minigame.shopAlienChickenPriceValue"],
+  "minigame.shopAlienChickenReceiveValue":
+    ENGLISH_TERMS["minigame.shopAlienChickenReceiveValue"],
+  "minigame.shopAlienChickenConfirm":
+    ENGLISH_TERMS["minigame.shopAlienChickenConfirm"],
+  "minigame.shopRoosterChickenName":
+    ENGLISH_TERMS["minigame.shopRoosterChickenName"],
+  "minigame.shopRoosterChickenListBlurb":
+    ENGLISH_TERMS["minigame.shopRoosterChickenListBlurb"],
+  "minigame.shopRoosterChickenDetail":
+    ENGLISH_TERMS["minigame.shopRoosterChickenDetail"],
+  "minigame.shopRoosterChickenPriceValue":
+    ENGLISH_TERMS["minigame.shopRoosterChickenPriceValue"],
+  "minigame.shopRoosterChickenReceiveValue":
+    ENGLISH_TERMS["minigame.shopRoosterChickenReceiveValue"],
+  "minigame.shopRoosterChickenConfirm":
+    ENGLISH_TERMS["minigame.shopRoosterChickenConfirm"],
+  "minigame.shopInsufficientCluckcoin5":
+    ENGLISH_TERMS["minigame.shopInsufficientCluckcoin5"],
+  "minigame.shopInsufficientCluckcoin15":
+    ENGLISH_TERMS["minigame.shopInsufficientCluckcoin15"],
+  "minigame.shopInsufficientCluckcoin50":
+    ENGLISH_TERMS["minigame.shopInsufficientCluckcoin50"],
+  "minigame.shopGoldenChookExchangeName":
+    ENGLISH_TERMS["minigame.shopGoldenChookExchangeName"],
+  "minigame.shopGoldenChookExchangeListBlurb":
+    ENGLISH_TERMS["minigame.shopGoldenChookExchangeListBlurb"],
+  "minigame.shopGoldenChookExchangeDetail":
+    ENGLISH_TERMS["minigame.shopGoldenChookExchangeDetail"],
+  "minigame.shopGoldenChookExchangePriceValue":
+    ENGLISH_TERMS["minigame.shopGoldenChookExchangePriceValue"],
+  "minigame.shopGoldenChookExchangeReceiveValue":
+    ENGLISH_TERMS["minigame.shopGoldenChookExchangeReceiveValue"],
+  "minigame.shopGoldenChookExchangeConfirm":
+    ENGLISH_TERMS["minigame.shopGoldenChookExchangeConfirm"],
+  "minigame.shopInsufficientGoldenChook":
+    ENGLISH_TERMS["minigame.shopInsufficientGoldenChook"],
+  "minigame.shopNuggetSwapName": ENGLISH_TERMS["minigame.shopNuggetSwapName"],
+  "minigame.shopNuggetSwapListBlurb":
+    ENGLISH_TERMS["minigame.shopNuggetSwapListBlurb"],
+  "minigame.shopNuggetSwapDetail":
+    ENGLISH_TERMS["minigame.shopNuggetSwapDetail"],
+  "minigame.shopNuggetSwapPriceValue":
+    ENGLISH_TERMS["minigame.shopNuggetSwapPriceValue"],
+  "minigame.shopNuggetSwapReceiveValue":
+    ENGLISH_TERMS["minigame.shopNuggetSwapReceiveValue"],
+  "minigame.shopNuggetSwapConfirm":
+    ENGLISH_TERMS["minigame.shopNuggetSwapConfirm"],
+  "minigame.shopInsufficientChooks50":
+    ENGLISH_TERMS["minigame.shopInsufficientChooks50"],
   "minigame.marketplaceTeaserTitle":
     ENGLISH_TERMS["minigame.marketplaceTeaserTitle"],
   "minigame.marketplaceTeaserDescription":

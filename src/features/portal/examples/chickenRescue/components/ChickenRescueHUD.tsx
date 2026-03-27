@@ -9,7 +9,7 @@ import { isTouchDevice } from "features/world/lib/device";
 import { useGameRun } from "../lib/GameRunContext";
 
 export const ChickenRescueHUD: React.FC = () => {
-  const { score } = useGameRun();
+  const { score, goldenCount } = useGameRun();
   const navigate = useNavigate();
   const { t } = useAppTranslation();
 
@@ -30,17 +30,23 @@ export const ChickenRescueHUD: React.FC = () => {
     <HudContainer>
       <div className="absolute top-4 left-4 pointer-events-none">
         <div className="relative">
-          <div className="h-6 w-full bg-black opacity-30 absolute coins-bb-hud-backdrop-reverse" />
+          <div className="h-10 w-full bg-black opacity-30 absolute coins-bb-hud-backdrop-reverse" />
           <div
-            className="flex items-center space-x-2 z-10 absolute"
+            className="flex flex-col z-10 absolute"
             style={{
-              width: "120px",
+              width: "160px",
               paddingTop: "3px",
               paddingLeft: "3px",
             }}
           >
             <span className="balance-text">
               {t("minigame.chooksScoreHud", { count: score })}
+            </span>
+            <span
+              className="balance-text"
+              style={{ color: "#facc15", textShadow: "1px 1px 0 #7c5f00" }}
+            >
+              Golden Chooks: {goldenCount}
             </span>
           </div>
         </div>

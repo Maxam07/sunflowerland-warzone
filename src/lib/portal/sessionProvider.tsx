@@ -29,6 +29,14 @@ export type MinigameSessionValue = {
   minigame: MinigameSessionResponse["minigame"];
   actions: Record<string, unknown>;
   dispatchAction: (input: DispatchMinigameActionInput) => boolean;
+  /**
+   * Applies actions in order on the updated state after each step. Stops at the
+   * first failure and keeps prior successful steps (partial success). Returns
+   * whether at least one action applied.
+   */
+  dispatchMinigameActionsSequential: (
+    inputs: DispatchMinigameActionInput[],
+  ) => boolean;
   apiError: string | null;
   clearApiError: () => void;
 };
@@ -93,6 +101,69 @@ export function MinigameSessionProvider({
     [bootstrap.actions, bootstrap.jwt, minigame],
   );
 
+  const dispatchMinigameActionsSequential = useCallback(
+    (inputs: DispatchMinigameActionInput[]): boolean => {
+      if (inputs.length === 0) {
+        return true;
+      }
+      setApiError(null);
+      const rollback = cloneMinigameSnapshot(minigame);
+      let current = minigame;
+      let applied = 0;
+      for (const input of inputs) {
+        const next = applyOptimisticPortalAction(bootstrap.actions, current, {
+          actionId: input.action,
+          amounts: input.amounts,
+          itemId: input.itemId,
+        });
+        if (!next.ok) {
+          break;
+        }
+        current = next.minigame;
+        applied += 1;
+      }
+      if (applied === 0) {
+        return false;
+      }
+      setMinigame(current);
+
+      if (!getUrl()) {
+        return true;
+      }
+
+      void (async () => {
+        let state = rollback;
+        for (const input of inputs) {
+          const step = applyOptimisticPortalAction(bootstrap.actions, state, {
+            actionId: input.action,
+            amounts: input.amounts,
+            itemId: input.itemId,
+          });
+          if (!step.ok) {
+            break;
+          }
+          try {
+            const res = await postMinigameAction({
+              portalId: CONFIG.PORTAL_APP,
+              token: bootstrap.jwt as string,
+              action: input.action,
+              amounts: input.amounts,
+              itemId: input.itemId,
+            });
+            state = normalizeMinigameFromApi(res.minigame);
+          } catch (err) {
+            setMinigame(state);
+            setApiError(err instanceof Error ? err.message : String(err));
+            return;
+          }
+        }
+        setMinigame(state);
+      })();
+      return true;
+    },
+    [bootstrap.actions, bootstrap.jwt, minigame],
+  );
+
   const clearApiError = useCallback(() => setApiError(null), []);
 
   const value = useMemo(
@@ -103,6 +174,7 @@ export function MinigameSessionProvider({
       minigame,
       actions: bootstrap.actions,
       dispatchAction,
+      dispatchMinigameActionsSequential,
       apiError,
       clearApiError,
     }),
@@ -113,6 +185,7 @@ export function MinigameSessionProvider({
       bootstrap.actions,
       minigame,
       dispatchAction,
+      dispatchMinigameActionsSequential,
       apiError,
       clearApiError,
     ],

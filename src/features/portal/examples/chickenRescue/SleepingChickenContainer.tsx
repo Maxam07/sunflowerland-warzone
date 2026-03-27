@@ -1,6 +1,9 @@
 export class SleepingChickenContainer extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
 
+  /** Advanced-run golden chook spawn; affects rescue rewards and follower look. */
+  public readonly isGolden: boolean;
+
   private timeout: NodeJS.Timeout | undefined = undefined;
 
   constructor({
@@ -8,33 +11,43 @@ export class SleepingChickenContainer extends Phaser.GameObjects.Container {
     x,
     y,
     onDisappear,
+    isGolden = false,
   }: {
     scene: Phaser.Scene;
     x: number;
     y: number;
     onDisappear: () => void;
+    isGolden?: boolean;
   }) {
     super(scene, x, y);
     this.scene = scene;
+    this.isGolden = isGolden;
 
-    this.sprite = scene.add.sprite(1.5, -2, "sleeping_chicken").setOrigin(0.5);
+    if (isGolden) {
+      this.sprite = scene.add
+        .sprite(1.5, -2, "golden_sleeping_chook")
+        .setOrigin(0.5)
+        .setScale(0.85);
+    } else {
+      this.sprite = scene.add.sprite(1.5, -2, "sleeping_chicken").setOrigin(0.5);
 
-    if (!this.scene.anims.exists("sleeping_chicken_anim")) {
-      this.scene.anims.create({
-        key: "sleeping_chicken_anim",
-        frames: this.scene.anims.generateFrameNumbers(
-          "sleeping_chicken" as string,
-          {
-            start: 0,
-            end: 1,
-          },
-        ),
-        repeat: -1,
-        frameRate: 2,
-      });
+      if (!this.scene.anims.exists("sleeping_chicken_anim")) {
+        this.scene.anims.create({
+          key: "sleeping_chicken_anim",
+          frames: this.scene.anims.generateFrameNumbers(
+            "sleeping_chicken" as string,
+            {
+              start: 0,
+              end: 1,
+            },
+          ),
+          repeat: -1,
+          frameRate: 2,
+        });
+      }
+
+      this.sprite.anims.play("sleeping_chicken_anim", true);
     }
-
-    this.sprite.anims.play("sleeping_chicken_anim", true);
 
     // Add the sprite to the container
     this.add(this.sprite);

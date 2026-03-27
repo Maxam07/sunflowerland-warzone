@@ -2,6 +2,7 @@ import React, { createContext, useContext } from "react";
 
 export type GameRunValue = {
   score: number;
+  goldenCount: number;
   setScore: React.Dispatch<React.SetStateAction<number>>;
   endAt: number;
 };

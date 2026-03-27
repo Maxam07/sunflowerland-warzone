@@ -8,7 +8,7 @@ export const CHICKEN_RESCUE_CLIENT_ACTIONS: Record<
   string,
   MinigameActionDefinition
 > = {
-  START_GOBLIN_COIN_DROP: {
+  START_FAT_CHICKEN_DROP: {
     produce: {
       Coin: {
         msToComplete: 8 * 60 * 60 * 1000,
@@ -17,17 +17,75 @@ export const CHICKEN_RESCUE_CLIENT_ACTIONS: Record<
       },
     },
   },
-  COLLECT_GOBLIN_COINS: {
+  COLLECT_FAT_CHICKEN: {
     collect: {
       Coin: { amount: 3 },
     },
   },
-  BUY_GOBLIN_CHICKEN: {
+  BUY_LOVE_CHICKEN: {
     burn: {
       Cluckcoin: { amount: 5 },
     },
     mint: {
-      GoblinChicken: { amount: 1 },
+      LoveChicken: { amount: 1 },
+    },
+  },
+  BUY_ALIEN_CHICKEN: {
+    burn: {
+      Cluckcoin: { amount: 15 },
+    },
+    mint: {
+      AlienChicken: { amount: 1 },
+    },
+  },
+  BUY_ROOSTER_CHICKEN: {
+    burn: {
+      Cluckcoin: { amount: 50 },
+    },
+    mint: {
+      RoosterChicken: { amount: 1 },
+    },
+  },
+  START_LOVE_COIN_DROP: {
+    produce: {
+      Coin: {
+        msToComplete: 8 * 60 * 60 * 1000,
+        limit: 999,
+        capByBalance: "LoveChicken",
+      },
+    },
+  },
+  COLLECT_LOVE_COINS: {
+    collect: {
+      Coin: { amount: 3 },
+    },
+  },
+  START_ALIEN_COIN_DROP: {
+    produce: {
+      Coin: {
+        msToComplete: 8 * 60 * 60 * 1000,
+        limit: 999,
+        capByBalance: "AlienChicken",
+      },
+    },
+  },
+  COLLECT_ALIEN_COINS: {
+    collect: {
+      Coin: { amount: 3 },
+    },
+  },
+  START_ROOSTER_COIN_DROP: {
+    produce: {
+      Coin: {
+        msToComplete: 8 * 60 * 60 * 1000,
+        limit: 999,
+        capByBalance: "RoosterChicken",
+      },
+    },
+  },
+  COLLECT_ROOSTER_COINS: {
+    collect: {
+      Coin: { amount: 3 },
     },
   },
   START: {
@@ -51,33 +109,52 @@ export const CHICKEN_RESCUE_CLIENT_ACTIONS: Record<
       LIVE_GAME: { amount: 1 },
     },
   },
-  FEED_CHOOK: {
-    produce: {
-      Nugget: { msToComplete: 5000, limit: 1 },
-    },
+  BUY_NUGGET: {
     burn: {
       Chook: { amount: 50 },
     },
-  },
-  COLLECT_NUGGET: {
-    collect: {
+    mint: {
       Nugget: { amount: 1 },
     },
   },
+
   BUY_CLUCKCOIN: {
     mint: {
       Cluckcoin: { amount: 1 },
     },
     burn: {
-      Nugget: { amount: 1 },
+      GoldenChook: { amount: 1 },
     },
   },
-  BUY_COIN: {
+
+  BUY_QUEENS: {
     mint: {
-      Coin: { amount: 1, dailyCap: 1 },
+      Coin: { amount: 5 },
     },
     burn: {
       Cluckcoin: { amount: 1 },
+    },
+  },
+  START_ADVANCED_GAME: {
+    mint: {
+      ADVANCED_GAME: { amount: 1 },
+    },
+    burn: {
+      Nugget: { amount: 1 },
+    },
+  },
+  LOSE_ADVANCED_GAME: {
+    burn: {
+      ADVANCED_GAME: { amount: 1 },
+    },
+  },
+  WIN_ADVANCED_GAME: {
+    mint: {
+      Chook: { min: 0, max: 100, dailyCap: 1000 },
+      GoldenChook: { min: 0, max: 3, dailyCap: 300 },
+    },
+    burn: {
+      ADVANCED_GAME: { amount: 1 },
     },
   },
 };

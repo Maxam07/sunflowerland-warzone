@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
@@ -25,21 +25,32 @@ import { defaultPhaserHandlers } from "./lib/chickenRescuePhaserApi";
 import type { ChickenRescuePhaserApiRef } from "./lib/chickenRescuePhaserApi";
 import { closePortal } from "lib/portal";
 import { ChickenRescueGame } from "./ChickenRescueGame";
+import type { ChickenRescueRunType } from "./ChickenRescueGame";
 import { ChickenRescueHUD } from "./components/ChickenRescueHUD";
 
 export const ChickenRescueGamePage: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { t } = useAppTranslation();
   const { minigame, farm, farmId, dispatchAction } = useMinigameSession();
 
   const scoreRef = useRef(0);
+  const goldenRef = useRef(0);
   const [score, setScore] = useState(0);
+  const [goldenCount, setGoldenCount] = useState(0);
   const [endAt] = useState(() => Date.now() + GAME_SECONDS * 1000);
   const [runEnd, setRunEnd] = useState<"playing" | "results">("playing");
   const resultsShown = useRef(false);
   const phaserApiRef = useRef(
     defaultPhaserHandlers(),
   ) as ChickenRescuePhaserApiRef;
+
+  const runType: ChickenRescueRunType =
+    searchParams.get("run") === "advanced" ||
+    ((minigame.balances.ADVANCED_GAME ?? 0) > 0 &&
+      searchParams.get("run") !== "basic")
+      ? "advanced"
+      : "basic";
 
   useEffect(() => {
     if (!hasLiveGame(minigame)) {
@@ -61,30 +72,47 @@ export const ChickenRescueGamePage: React.FC = () => {
 
   useLayoutEffect(() => {
     phaserApiRef.current.getScore = () => scoreRef.current;
-    phaserApiRef.current.onChickenRescued = (p) => setScore((s) => s + p);
+    phaserApiRef.current.onChickenRescued = (p, meta) => {
+      setScore((s) => s + p);
+      if (meta?.golden) {
+        setGoldenCount((prev) => {
+          const next = Math.min(3, prev + 1);
+          goldenRef.current = next;
+          return next;
+        });
+      }
+    };
     phaserApiRef.current.onGameOver = openResultsModal;
   }, [openResultsModal]);
 
   const onClaim = useCallback(() => {
     const final = scoreRef.current;
+    const finalGolden = goldenRef.current;
+    const isAdvanced = runType === "advanced";
     const ok = dispatchAction({
-      action: "WIN",
-      amounts: { Chook: chooksForScore(final) },
+      action: isAdvanced ? "WIN_ADVANCED_GAME" : "WIN",
+      amounts: isAdvanced
+        ? {
+            Chook: chooksForScore(final),
+            GoldenChook: finalGolden,
+          }
+        : { Chook: chooksForScore(final) },
     });
     if (ok) {
       closePortal(navigate);
     }
-  }, [dispatchAction]);
+  }, [dispatchAction, navigate, runType]);
 
   const chooksEarned = chooksForScore(score);
 
   const gameRunValue = useMemo(
     () => ({
       score,
+      goldenCount,
       setScore,
       endAt,
     }),
-    [score, endAt],
+    [score, goldenCount, endAt],
   );
 
   return (
@@ -94,6 +122,8 @@ export const ChickenRescueGamePage: React.FC = () => {
           bumpkin={farm?.bumpkin}
           farmId={farmId}
           phaserApiRef={phaserApiRef}
+          runType={runType}
+          initialGoldenChooks={minigame.balances.GoldenChook ?? 0}
         />
         {runEnd === "playing" && <ChickenRescueHUD />}
 
@@ -112,6 +142,11 @@ export const ChickenRescueGamePage: React.FC = () => {
                     earned: chooksEarned,
                   })}
                 </p>
+                {runType === "advanced" && (
+                  <p className="text-xs mb-1">
+                    Golden chooks rescued: {goldenCount}
+                  </p>
+                )}
               </div>
               <Button className="mt-1 w-full" onClick={onClaim}>
                 {t("claim")}

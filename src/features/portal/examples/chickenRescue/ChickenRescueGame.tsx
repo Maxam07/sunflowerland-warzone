@@ -7,12 +7,24 @@ import { Preloader } from "features/world/scenes/Preloader";
 import { ChickenRescueScene } from "./ChickenRescueScene";
 import type { ChickenRescuePhaserApiRef } from "./lib/chickenRescuePhaserApi";
 
+export type ChickenRescueRunType = "basic" | "advanced";
+
 export const ChickenRescueGame: React.FC<{
   bumpkin: unknown;
   farmId: number;
   phaserApiRef: ChickenRescuePhaserApiRef;
+  /** From URL `?run=` — drives Phaser spawns and golden chook rules. */
+  runType: ChickenRescueRunType;
+  initialGoldenChooks: number;
   onGameReady?: (game: Game) => void;
-}> = ({ bumpkin, farmId, phaserApiRef, onGameReady }) => {
+}> = ({
+  bumpkin,
+  farmId,
+  phaserApiRef,
+  runType,
+  initialGoldenChooks,
+  onGameReady,
+}) => {
   const game = useRef<Game>();
 
   const scene = "chicken_rescue";
@@ -70,13 +82,15 @@ export const ChickenRescueGame: React.FC<{
     game.current.registry.set("gameState", { bumpkin });
     game.current.registry.set("id", farmId);
     game.current.registry.set("phaserApiRef", phaserApiRef);
+    game.current.registry.set("chickenRunType", runType);
+    game.current.registry.set("initialGoldenChooks", initialGoldenChooks);
 
     onGameReady?.(game.current);
 
     return () => {
       game.current?.destroy(true);
     };
-  }, []);
+  }, [bumpkin, farmId, phaserApiRef, runType, initialGoldenChooks]);
 
   const ref = useRef<HTMLDivElement>(null);
 

@@ -7,7 +7,12 @@ export type MinigameSessionResponse = {
     balances: Record<string, number>;
     producing: Record<
       string,
-      { outputToken: string; startedAt: number; completesAt: number }
+      {
+        outputToken: string;
+        startedAt: number;
+        completesAt: number;
+        capByBalance?: string;
+      }
     >;
     activity: number;
     dailyActivity: { date: string; count: number };

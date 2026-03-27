@@ -5641,6 +5641,8 @@ const minigame: Record<Minigame, string> = {
   "minigame.purchase": "Purchase",
   "minigame.chickenRescueHelp":
     "Rescue chooks from the paddock for the hungry goblin. Each live run costs 1 Coin (from your Goblin Chickens). Earned Chooks can be spent back home.",
+  "minigame.chickenRescueBumpkinDialogue":
+    "If you want to play in my fields.\nYou must pay me coins.\nIt costs one coin to enter and catch my chooks.",
   "minigame.discovered.one": "Howdy Bumpkin, you've discovered a portal!",
   "minigame.discovered.two":
     "Step into the magical realm to earn rewards and glory. Good luck!",
@@ -5674,6 +5676,12 @@ const minigame: Record<Minigame, string> = {
   "minigame.startNextCoinDrop": "Start next coin drop",
   "minigame.buyGoblinChicken": "Buy Goblin Chicken (5 Cluckcoin)",
   "minigame.coinDropCooking": "Dropping… {{time}} left",
+  "minigame.coinChickenReadyInModal":
+    "{{count}} coins will be ready in {{time}}.",
+  "minigame.coinChickenCollectFlash": "+{{count}}",
+  "minigame.coinChickenHomeTileAriaLabel":
+    "Collect coins or manage coin production",
+  "minigame.coinChickenIntroStart": "Start coin drop",
   "minigame.goblinChickensOwned": "Goblin Chickens: {{count}}",
   "minigame.coop": "Hungry goblin",
   "minigame.coopChooks": "Chooks: {{count}}",
@@ -5709,19 +5717,97 @@ const minigame: Record<Minigame, string> = {
   "minigame.portalShopSubtitle":
     "Spend tokens on minigame items. Tap a row for details and to confirm.",
   "minigame.shopBack": "Back",
+  "minigame.shopChickenOwnedAria": "Already owned",
   "minigame.shopConfirm": "Confirm",
   "minigame.shopPriceLabel": "Price",
   "minigame.shopReceiveLabel": "You receive",
+  "minigame.shopBuyCoinsName": "Coins",
+  "minigame.shopBuyCoinsListBlurb":
+    "Buy 5 Coins for 1 Cluckcoin.",
+  "minigame.shopBuyCoinsDetail":
+    "Use Cluckcoin to buy more run attempts instantly.",
+  "minigame.shopBuyCoinsPriceValue": "1 Cluckcoin",
+  "minigame.shopBuyCoinsReceiveValue": "5 Coins",
+  "minigame.shopBuyCoinsConfirm":
+    "You will spend 1 Cluckcoin and receive 5 Coins.",
+  "minigame.shopInsufficientCluckcoin1":
+    "You need 1 Cluckcoin to purchase this.",
   "minigame.shopCluckcoinName": "Cluckcoin",
   "minigame.shopCluckcoinListBlurb":
-    "Swap 1 Nugget for 1 Cluckcoin to use in this minigame.",
+    "A powerful Coin for this mini game.",
   "minigame.shopCluckcoinDetail":
-    "Trade Nuggets for Cluckcoin at a fixed rate. Spend Cluckcoin on Coins, Goblin Chickens, and more.",
-  "minigame.shopCluckcoinPriceValue": "1 Nugget",
+    "A powerful Coin for this mini game.",
+  "minigame.shopCluckcoinPriceValue": "1 Golden Chook",
   "minigame.shopCluckcoinReceiveValue": "1 Cluckcoin",
   "minigame.shopCluckcoinConfirm":
-    "You will spend 1 Nugget and receive 1 Cluckcoin. This uses your minigame inventory.",
+    "You will spend 1 Golden Chook and receive 1 Cluckcoin. This uses your minigame inventory.",
   "minigame.shopInsufficientNuggets": "You need 1 Nugget to purchase this.",
+  "minigame.shopGoblinChickenName": "Goblin Chicken",
+  "minigame.shopGoblinChickenListBlurb":
+    "Own one to run 8-hour coin drops. Each chicken pays 3 Coins when ready.",
+  "minigame.shopGoblinChickenDetail":
+    "Goblin Chickens passively produce Coins on a timer. Buy another to run an extra coin drop at the same time.",
+  "minigame.shopGoblinChickenPriceValue": "5 Cluckcoin",
+  "minigame.shopGoblinChickenReceiveValue": "1 Goblin Chicken",
+  "minigame.shopGoblinChickenConfirm":
+    "You will spend 5 Cluckcoin and receive 1 Goblin Chicken in your minigame inventory.",
+  "minigame.shopInsufficientCluckcoin":
+    "You need 5 Cluckcoin to purchase this.",
+  "minigame.shopLoveChickenName": "Love Chicken",
+  "minigame.shopLoveChickenListBlurb":
+    "Produces 3 Coins every 8 hours.",
+  "minigame.shopLoveChickenDetail":
+    "Produces 3 Coins every 8 hours.",
+  "minigame.shopLoveChickenPriceValue": "5 Cluckcoin",
+  "minigame.shopLoveChickenReceiveValue": "1 Love Chicken",
+  "minigame.shopLoveChickenConfirm":
+    "You will spend 5 Cluckcoin and receive 1 Love Chicken in your minigame inventory.",
+  "minigame.shopAlienChickenName": "Alien Chicken",
+  "minigame.shopAlienChickenListBlurb":
+    "Produces 3 Coins every 8 hours.",
+  "minigame.shopAlienChickenDetail":
+    "Produces 3 Coins every 8 hours.",
+  "minigame.shopAlienChickenPriceValue": "15 Cluckcoin",
+  "minigame.shopAlienChickenReceiveValue": "1 Alien Chicken",
+  "minigame.shopAlienChickenConfirm":
+    "You will spend 15 Cluckcoin and receive 1 Alien Chicken in your minigame inventory.",
+  "minigame.shopRoosterChickenName": "Rooster Chicken",
+  "minigame.shopRoosterChickenListBlurb":
+    "Produces 3 Coins every 8 hours.",
+  "minigame.shopRoosterChickenDetail":
+    "Produces 3 Coins every 8 hours.",
+  "minigame.shopRoosterChickenPriceValue": "50 Cluckcoin",
+  "minigame.shopRoosterChickenReceiveValue": "1 Rooster Chicken",
+  "minigame.shopRoosterChickenConfirm":
+    "You will spend 50 Cluckcoin and receive 1 Rooster Chicken in your minigame inventory.",
+  "minigame.shopInsufficientCluckcoin5":
+    "You need 5 Cluckcoin to purchase this.",
+  "minigame.shopInsufficientCluckcoin15":
+    "You need 15 Cluckcoin to purchase this.",
+  "minigame.shopInsufficientCluckcoin50":
+    "You need 50 Cluckcoin to purchase this.",
+  "minigame.shopGoldenChookExchangeName": "Golden Chook Exchange",
+  "minigame.shopGoldenChookExchangeListBlurb":
+    "Burn 1 Golden Chook to instantly receive 1 Cluckcoin.",
+  "minigame.shopGoldenChookExchangeDetail":
+    "Trade Golden Chooks into Cluckcoin at a fixed rate in the minigame inventory.",
+  "minigame.shopGoldenChookExchangePriceValue": "1 Golden Chook",
+  "minigame.shopGoldenChookExchangeReceiveValue": "1 Cluckcoin",
+  "minigame.shopGoldenChookExchangeConfirm":
+    "You will burn 1 Golden Chook and receive 1 Cluckcoin.",
+  "minigame.shopInsufficientGoldenChook":
+    "You need 1 Golden Chook to exchange.",
+  "minigame.shopNuggetSwapName": "Nugget Exchange",
+  "minigame.shopNuggetSwapListBlurb":
+    "Swap 50 Chook for 1 Nugget instantly.",
+  "minigame.shopNuggetSwapDetail":
+    "Convert Chook directly into Nuggets with no timer.",
+  "minigame.shopNuggetSwapPriceValue": "50 Chook",
+  "minigame.shopNuggetSwapReceiveValue": "1 Nugget",
+  "minigame.shopNuggetSwapConfirm":
+    "You will burn 50 Chook and receive 1 Nugget instantly.",
+  "minigame.shopInsufficientChooks50":
+    "You need 50 Chook to exchange.",
   "minigame.marketplaceTeaserTitle": "Player marketplace",
   "minigame.marketplaceTeaserDescription":
     "Buy and sell Cluckcoin and other resources with players on Sunflower Land.",

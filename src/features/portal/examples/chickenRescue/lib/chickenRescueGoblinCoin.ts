@@ -6,6 +6,8 @@ export type GoblinCoinJob = {
   id: string;
   completesAt: number;
   startedAt: number;
+  /** Matches `ProduceRule.capByBalance` when the job was started (which chicken line). */
+  capByBalance?: string;
 };
 
 export function coinProducingJobs(producing: Producing): GoblinCoinJob[] {
@@ -15,6 +17,7 @@ export function coinProducingJobs(producing: Producing): GoblinCoinJob[] {
       id,
       completesAt: j.completesAt,
       startedAt: j.startedAt,
+      capByBalance: j.capByBalance,
     }));
 }
 

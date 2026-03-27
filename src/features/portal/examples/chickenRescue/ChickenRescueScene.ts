@@ -1,4 +1,5 @@
 import mapJson from "assets/map/chicken_rescue.json";
+import goldenChookSleeping from "assets/sfts/golden_chook.png";
 import { SceneId } from "features/world/mmoMachine";
 import { BaseScene, WALKING_SPEED } from "features/world/scenes/BaseScene";
 import { ChickenContainer } from "./ChickenContainer";
@@ -13,6 +14,7 @@ import { BumpkinContainer } from "features/world/containers/BumpkinContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { SleepingChickenContainer } from "./SleepingChickenContainer";
 import { isTouchDevice } from "features/world/lib/device";
+import type { ChickenRescueRunType } from "./ChickenRescueGame";
 
 type Coordinates = { x: number; y: number };
 const SQUARE_WIDTH = 16;
@@ -62,6 +64,9 @@ export class ChickenRescueScene extends BaseScene {
     container: BumpkinContainer;
     moveTo?: Coordinates;
   }[] = [];
+  private goldenRescued = 0;
+  private nextGoldenSpawnAtScore = 3;
+  private startingGoldenChooks = 0;
 
   constructor() {
     super({
@@ -75,6 +80,31 @@ export class ChickenRescueScene extends BaseScene {
     return this.registry.get("phaserApiRef") as
       | ChickenRescuePhaserApiRef
       | undefined;
+  }
+
+  public get runType(): ChickenRescueRunType {
+    const run = this.registry.get("chickenRunType");
+    return run === "advanced" ? "advanced" : "basic";
+  }
+
+  private get isAdvancedRun() {
+    return this.runType === "advanced";
+  }
+
+  private get runStartingGoldenChooks() {
+    return this.startingGoldenChooks;
+  }
+
+  private get goldenRunCap() {
+    return Math.max(0, 3 - this.runStartingGoldenChooks);
+  }
+
+  private get activeGoldenInWild() {
+    return this.sleeping.filter((entry) => entry.chicken.isGolden).length;
+  }
+
+  private get remainingGoldenToCollect() {
+    return Math.max(0, this.goldenRunCap - this.goldenRescued);
   }
 
   preload() {
@@ -99,6 +129,8 @@ export class ChickenRescueScene extends BaseScene {
       frameWidth: 32,
       frameHeight: 32,
     });
+
+    this.load.image("golden_sleeping_chook", goldenChookSleeping);
 
     this.load.audio("game_over", SOUNDS.notifications.maze_over);
     this.load.audio("chicken_1", SOUNDS.resources.chicken_1);
@@ -197,6 +229,10 @@ export class ChickenRescueScene extends BaseScene {
     this.sleeping = [];
     this.goblins = [];
     this.isDead = false;
+    this.startingGoldenChooks = this.registry.get("initialGoldenChooks") ?? 0;
+    this.goldenRescued = 0;
+    this.nextGoldenSpawnAtScore = 3;
+    this.walkingSpeed = this.isAdvancedRun ? WALKING_SPEED * 2 : WALKING_SPEED;
 
     // Create initial objects
     for (let i = 0; i < 5; i++) {
@@ -599,11 +635,23 @@ export class ChickenRescueScene extends BaseScene {
       );
     };
 
+    const canSpawnGolden =
+      this.isAdvancedRun &&
+      this.goldenRunCap > 0 &&
+      this.remainingGoldenToCollect > 0 &&
+      this.activeGoldenInWild < this.remainingGoldenToCollect &&
+      this.score >= this.nextGoldenSpawnAtScore;
+    const isGolden = canSpawnGolden;
+    if (isGolden) {
+      this.nextGoldenSpawnAtScore += 20;
+    }
+
     const chicken = new SleepingChickenContainer({
       scene: this,
       x: coordinates.x * SQUARE_WIDTH + SQUARE_WIDTH / 2,
       y: coordinates.y * SQUARE_WIDTH + SQUARE_WIDTH / 2,
       onDisappear: onRemove,
+      isGolden,
     });
 
     // Add a collider to the chicken
@@ -628,7 +676,7 @@ export class ChickenRescueScene extends BaseScene {
       () => {
         onRemove();
         // Add chicken to conga line
-        this.onAddFollower();
+        this.onAddFollower(chicken.isGolden);
 
         chicken?.destroy();
       },
@@ -743,10 +791,10 @@ export class ChickenRescueScene extends BaseScene {
 
     this.phaserApiRef?.current.onGameOver();
 
-    this.walkingSpeed = WALKING_SPEED;
+    this.walkingSpeed = this.isAdvancedRun ? WALKING_SPEED * 2 : WALKING_SPEED;
   }
 
-  onAddFollower() {
+  onAddFollower(isGolden = false) {
     // Find first empty position in conga line
     const index = this.following.findIndex((follower) => !follower);
 
@@ -762,7 +810,10 @@ export class ChickenRescueScene extends BaseScene {
 
     this.following[index] = chicken;
 
-    this.phaserApiRef?.current.onChickenRescued(1);
+    if (isGolden) {
+      this.goldenRescued += 1;
+    }
+    this.phaserApiRef?.current.onChickenRescued(1, { golden: isGolden });
 
     this.physics.add.overlap(
       this.currentPlayer as Phaser.GameObjects.GameObject,
