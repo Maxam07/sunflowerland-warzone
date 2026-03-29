@@ -23,7 +23,6 @@ import { useMinigameSession } from "lib/portal";
 import { GameRunProvider } from "./lib/GameRunContext";
 import { defaultPhaserHandlers } from "./lib/chickenRescuePhaserApi";
 import type { ChickenRescuePhaserApiRef } from "./lib/chickenRescuePhaserApi";
-import { closePortal } from "lib/portal";
 import { ChickenRescueGame } from "./ChickenRescueGame";
 import type { ChickenRescueRunType } from "./ChickenRescueGame";
 import { ChickenRescueHUD } from "./components/ChickenRescueHUD";
@@ -99,7 +98,9 @@ export const ChickenRescueGamePage: React.FC = () => {
         : { Chook: chooksForScore(final) },
     });
     if (ok) {
-      closePortal(navigate);
+      // Stay inside the iframe on /home so the minigame API can finish and the
+      // player can start another run. Closing the parent iframe races the save.
+      navigate("/home", { replace: true });
     }
   }, [dispatchAction, navigate, runType]);
 

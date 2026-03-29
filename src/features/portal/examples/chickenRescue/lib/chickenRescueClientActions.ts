@@ -1,9 +1,11 @@
 import type { MinigameActionDefinition } from "lib/portal";
 
 /**
- * Mirrors sunflower-land-api `CHICKEN_RESCUE_CONFIG.actions` for offline / no-API play.
- * Keep in sync when server rules change.
+ * Mirrors `sunflower-land-api` `domain/minigames/configs/chickenRescue.ts` for offline / no-API play.
  */
+const SEVEN_HOURS_MS = 7 * 60 * 60 * 1000;
+const EIGHT_HOURS_MS = 8 * 60 * 60 * 1000;
+
 export const CHICKEN_RESCUE_CLIENT_ACTIONS: Record<
   string,
   MinigameActionDefinition
@@ -11,9 +13,9 @@ export const CHICKEN_RESCUE_CLIENT_ACTIONS: Record<
   START_FAT_CHICKEN_DROP: {
     produce: {
       Coin: {
-        msToComplete: 8 * 60 * 60 * 1000,
+        msToComplete: SEVEN_HOURS_MS,
         limit: 999,
-        capByBalance: "GoblinChicken",
+        capByBalance: "FatChicken",
       },
     },
   },
@@ -24,7 +26,7 @@ export const CHICKEN_RESCUE_CLIENT_ACTIONS: Record<
   },
   BUY_LOVE_CHICKEN: {
     burn: {
-      Cluckcoin: { amount: 5 },
+      Cluckcoin: { amount: 15 },
     },
     mint: {
       LoveChicken: { amount: 1 },
@@ -32,7 +34,7 @@ export const CHICKEN_RESCUE_CLIENT_ACTIONS: Record<
   },
   BUY_ALIEN_CHICKEN: {
     burn: {
-      Cluckcoin: { amount: 15 },
+      Cluckcoin: { amount: 100 },
     },
     mint: {
       AlienChicken: { amount: 1 },
@@ -40,7 +42,7 @@ export const CHICKEN_RESCUE_CLIENT_ACTIONS: Record<
   },
   BUY_ROOSTER_CHICKEN: {
     burn: {
-      Cluckcoin: { amount: 50 },
+      Cluckcoin: { amount: 500 },
     },
     mint: {
       RoosterChicken: { amount: 1 },
@@ -49,7 +51,7 @@ export const CHICKEN_RESCUE_CLIENT_ACTIONS: Record<
   START_LOVE_COIN_DROP: {
     produce: {
       Coin: {
-        msToComplete: 8 * 60 * 60 * 1000,
+        msToComplete: EIGHT_HOURS_MS,
         limit: 999,
         capByBalance: "LoveChicken",
       },
@@ -63,7 +65,7 @@ export const CHICKEN_RESCUE_CLIENT_ACTIONS: Record<
   START_ALIEN_COIN_DROP: {
     produce: {
       Coin: {
-        msToComplete: 8 * 60 * 60 * 1000,
+        msToComplete: EIGHT_HOURS_MS,
         limit: 999,
         capByBalance: "AlienChicken",
       },
@@ -77,7 +79,7 @@ export const CHICKEN_RESCUE_CLIENT_ACTIONS: Record<
   START_ROOSTER_COIN_DROP: {
     produce: {
       Coin: {
-        msToComplete: 8 * 60 * 60 * 1000,
+        msToComplete: EIGHT_HOURS_MS,
         limit: 999,
         capByBalance: "RoosterChicken",
       },

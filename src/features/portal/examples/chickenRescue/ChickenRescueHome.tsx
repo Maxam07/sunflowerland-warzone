@@ -7,8 +7,9 @@ import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
 import chookIcon from "assets/icons/chook.webp";
-import chickenNuggetIcon from "assets/icons/chicken_nugget.webp";
+import chickenFeetIcon from "assets/icons/chicken_feet.webp";
 import goldenChookIcon from "assets/sfts/golden_chook.png";
+import wormIcon from "assets/icons/worm.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
 import { coinsFromMinigame } from "./lib/chickenRescueMachine";
@@ -118,8 +119,8 @@ export const ChickenRescueHome: React.FC = () => {
                         <span className="text-sm font-medium leading-tight">
                           Basic run
                         </span>
-                        <Label type={canStartBasic ? "warning" : "danger"} icon={SUNNYSIDE.ui.coins}>
-                          1 Coin
+                        <Label type={canStartBasic ? "warning" : "danger"} icon={wormIcon}>
+                          1 Worm
                         </Label>
                       </div>
                       <p className="text-xs mt-0.5 opacity-85 leading-snug">
@@ -151,9 +152,9 @@ export const ChickenRescueHome: React.FC = () => {
                         </span>
                         <Label
                           type={canStartAdvanced ? "warning" : "danger"}
-                          icon={chickenNuggetIcon}
+                          icon={chickenFeetIcon}
                         >
-                          1 Nugget
+                          1 Chicken Feet
                         </Label>
                       </div>
                       <p className="text-xs mt-0.5 opacity-85 leading-snug">
@@ -182,7 +183,7 @@ export const ChickenRescueHome: React.FC = () => {
             <div className="p-2">
               <p className="text-sm mb-3">
                 Are you sure you want to continue? It will cost{" "}
-                {pendingRun === "basic" ? "1 Coin" : "1 Nugget"}.
+                {pendingRun === "basic" ? "1 Worm" : "1 Chicken Feet"}.
               </p>
               {apiError && (
                 <p className="text-xs text-red-600 dark:text-red-400 mb-2 break-words">

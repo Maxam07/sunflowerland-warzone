@@ -5721,91 +5721,92 @@ const minigame: Record<Minigame, string> = {
   "minigame.shopConfirm": "Confirm",
   "minigame.shopPriceLabel": "Price",
   "minigame.shopReceiveLabel": "You receive",
-  "minigame.shopBuyCoinsName": "Coins",
+  "minigame.shopBuyCoinsName": "Worms",
   "minigame.shopBuyCoinsListBlurb":
-    "Buy 5 Coins for 1 Cluckcoin.",
+    "Buy 5 Worms for 1 Golden Nugget.",
   "minigame.shopBuyCoinsDetail":
-    "Use Cluckcoin to buy more run attempts instantly.",
-  "minigame.shopBuyCoinsPriceValue": "1 Cluckcoin",
-  "minigame.shopBuyCoinsReceiveValue": "5 Coins",
+    "Use Golden Nuggets to buy more worms for run attempts instantly.",
+  "minigame.shopBuyCoinsPriceValue": "1 Golden Nugget",
+  "minigame.shopBuyCoinsReceiveValue": "5 Worms",
   "minigame.shopBuyCoinsConfirm":
-    "You will spend 1 Cluckcoin and receive 5 Coins.",
+    "You will spend 1 Golden Nugget and receive 5 Worms.",
   "minigame.shopInsufficientCluckcoin1":
-    "You need 1 Cluckcoin to purchase this.",
-  "minigame.shopCluckcoinName": "Cluckcoin",
+    "You need 1 Golden Nugget to purchase this.",
+  "minigame.shopCluckcoinName": "Golden Nuggets",
   "minigame.shopCluckcoinListBlurb":
-    "A powerful Coin for this mini game.",
+    "Premium currency. Spend it in the shop to unlock better wormeries.",
   "minigame.shopCluckcoinDetail":
-    "A powerful Coin for this mini game.",
+    "Premium currency. Spend it in the shop to unlock better wormeries that produce more worms.",
   "minigame.shopCluckcoinPriceValue": "1 Golden Chook",
-  "minigame.shopCluckcoinReceiveValue": "1 Cluckcoin",
+  "minigame.shopCluckcoinReceiveValue": "1 Golden Nugget",
   "minigame.shopCluckcoinConfirm":
-    "You will spend 1 Golden Chook and receive 1 Cluckcoin. This uses your minigame inventory.",
-  "minigame.shopInsufficientNuggets": "You need 1 Nugget to purchase this.",
-  "minigame.shopGoblinChickenName": "Goblin Chicken",
+    "You will spend 1 Golden Chook and receive 1 Golden Nugget. This uses your minigame inventory.",
+  "minigame.shopInsufficientNuggets":
+    "You need 1 Chicken Feet to purchase this.",
+  "minigame.shopGoblinChickenName": "Wormery",
   "minigame.shopGoblinChickenListBlurb":
-    "Own one to run 8-hour coin drops. Each chicken pays 3 Coins when ready.",
+    "Unlock an extra wormery that produces worms on an 8-hour timer.",
   "minigame.shopGoblinChickenDetail":
-    "Goblin Chickens passively produce Coins on a timer. Buy another to run an extra coin drop at the same time.",
-  "minigame.shopGoblinChickenPriceValue": "5 Cluckcoin",
-  "minigame.shopGoblinChickenReceiveValue": "1 Goblin Chicken",
+    "Runs its own timed worm payout alongside your other wormeries.",
+  "minigame.shopGoblinChickenPriceValue": "15 Golden Nuggets",
+  "minigame.shopGoblinChickenReceiveValue": "1 Wormery",
   "minigame.shopGoblinChickenConfirm":
-    "You will spend 5 Cluckcoin and receive 1 Goblin Chicken in your minigame inventory.",
+    "You will spend 15 Golden Nuggets and receive 1 Wormery in your minigame inventory.",
   "minigame.shopInsufficientCluckcoin":
-    "You need 5 Cluckcoin to purchase this.",
-  "minigame.shopLoveChickenName": "Love Chicken",
+    "You need 15 Golden Nuggets to purchase this.",
+  "minigame.shopLoveChickenName": "Wormery",
   "minigame.shopLoveChickenListBlurb":
-    "Produces 3 Coins every 8 hours.",
+    "Unlock an extra wormery that produces worms on an 8-hour timer.",
   "minigame.shopLoveChickenDetail":
-    "Produces 3 Coins every 8 hours.",
-  "minigame.shopLoveChickenPriceValue": "5 Cluckcoin",
-  "minigame.shopLoveChickenReceiveValue": "1 Love Chicken",
+    "Runs its own timed worm payout alongside your other wormeries.",
+  "minigame.shopLoveChickenPriceValue": "15 Golden Nuggets",
+  "minigame.shopLoveChickenReceiveValue": "1 Wormery",
   "minigame.shopLoveChickenConfirm":
-    "You will spend 5 Cluckcoin and receive 1 Love Chicken in your minigame inventory.",
-  "minigame.shopAlienChickenName": "Alien Chicken",
+    "You will spend 15 Golden Nuggets and receive 1 Wormery in your minigame inventory.",
+  "minigame.shopAlienChickenName": "Wormery",
   "minigame.shopAlienChickenListBlurb":
-    "Produces 3 Coins every 8 hours.",
+    "Unlock another wormery for parallel worm production.",
   "minigame.shopAlienChickenDetail":
-    "Produces 3 Coins every 8 hours.",
-  "minigame.shopAlienChickenPriceValue": "15 Cluckcoin",
-  "minigame.shopAlienChickenReceiveValue": "1 Alien Chicken",
+    "Another parallel worm lane to stack with your other wormeries.",
+  "minigame.shopAlienChickenPriceValue": "100 Golden Nuggets",
+  "minigame.shopAlienChickenReceiveValue": "1 Wormery",
   "minigame.shopAlienChickenConfirm":
-    "You will spend 15 Cluckcoin and receive 1 Alien Chicken in your minigame inventory.",
-  "minigame.shopRoosterChickenName": "Rooster Chicken",
+    "You will spend 100 Golden Nuggets and receive 1 Wormery in your minigame inventory.",
+  "minigame.shopRoosterChickenName": "Wormery",
   "minigame.shopRoosterChickenListBlurb":
-    "Produces 3 Coins every 8 hours.",
+    "Unlock the top-tier wormery for maximum worm throughput.",
   "minigame.shopRoosterChickenDetail":
-    "Produces 3 Coins every 8 hours.",
-  "minigame.shopRoosterChickenPriceValue": "50 Cluckcoin",
-  "minigame.shopRoosterChickenReceiveValue": "1 Rooster Chicken",
+    "Top shop wormery upgrade with the strongest idle worm lane.",
+  "minigame.shopRoosterChickenPriceValue": "500 Golden Nuggets",
+  "minigame.shopRoosterChickenReceiveValue": "1 Wormery",
   "minigame.shopRoosterChickenConfirm":
-    "You will spend 50 Cluckcoin and receive 1 Rooster Chicken in your minigame inventory.",
+    "You will spend 500 Golden Nuggets and receive 1 Wormery in your minigame inventory.",
   "minigame.shopInsufficientCluckcoin5":
-    "You need 5 Cluckcoin to purchase this.",
+    "You need 15 Golden Nuggets to purchase this.",
   "minigame.shopInsufficientCluckcoin15":
-    "You need 15 Cluckcoin to purchase this.",
+    "You need 100 Golden Nuggets to purchase this.",
   "minigame.shopInsufficientCluckcoin50":
-    "You need 50 Cluckcoin to purchase this.",
+    "You need 500 Golden Nuggets to purchase this.",
   "minigame.shopGoldenChookExchangeName": "Golden Chook Exchange",
   "minigame.shopGoldenChookExchangeListBlurb":
-    "Burn 1 Golden Chook to instantly receive 1 Cluckcoin.",
+    "Burn 1 Golden Chook to instantly receive 1 Golden Nugget.",
   "minigame.shopGoldenChookExchangeDetail":
-    "Trade Golden Chooks into Cluckcoin at a fixed rate in the minigame inventory.",
+    "Trade Golden Chooks into Golden Nuggets at a fixed rate in the minigame inventory.",
   "minigame.shopGoldenChookExchangePriceValue": "1 Golden Chook",
-  "minigame.shopGoldenChookExchangeReceiveValue": "1 Cluckcoin",
+  "minigame.shopGoldenChookExchangeReceiveValue": "1 Golden Nugget",
   "minigame.shopGoldenChookExchangeConfirm":
-    "You will burn 1 Golden Chook and receive 1 Cluckcoin.",
+    "You will burn 1 Golden Chook and receive 1 Golden Nugget.",
   "minigame.shopInsufficientGoldenChook":
     "You need 1 Golden Chook to exchange.",
-  "minigame.shopNuggetSwapName": "Nugget Exchange",
+  "minigame.shopNuggetSwapName": "Chicken Feet Exchange",
   "minigame.shopNuggetSwapListBlurb":
-    "Swap 50 Chook for 1 Nugget instantly.",
+    "Swap 50 Chook for 1 Chicken Feet instantly.",
   "minigame.shopNuggetSwapDetail":
-    "Convert Chook directly into Nuggets with no timer.",
+    "Convert Chook directly into Chicken Feet with no timer.",
   "minigame.shopNuggetSwapPriceValue": "50 Chook",
-  "minigame.shopNuggetSwapReceiveValue": "1 Nugget",
+  "minigame.shopNuggetSwapReceiveValue": "1 Chicken Feet",
   "minigame.shopNuggetSwapConfirm":
-    "You will burn 50 Chook and receive 1 Nugget instantly.",
+    "You will burn 50 Chook and receive 1 Chicken Feet instantly.",
   "minigame.shopInsufficientChooks50":
     "You need 50 Chook to exchange.",
   "minigame.marketplaceTeaserTitle": "Player marketplace",

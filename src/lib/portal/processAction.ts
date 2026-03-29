@@ -235,7 +235,7 @@ function coinJobsOnLine(
   return Object.values(producing).filter((p) => {
     if (p.outputToken !== outputToken) return false;
     if (line === undefined) return true;
-    const jobLine = p.capByBalance ?? "GoblinChicken";
+    const jobLine = p.capByBalance ?? "FatChicken";
     return jobLine === line;
   }).length;
 }
