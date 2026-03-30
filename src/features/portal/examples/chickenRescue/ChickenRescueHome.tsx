@@ -12,7 +12,7 @@ import goldenChookIcon from "assets/sfts/golden_chook.png";
 import wormIcon from "assets/icons/worm.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
-import { coinsFromMinigame } from "./lib/chickenRescueMachine";
+import { wormsFromMinigame } from "./lib/chickenRescueMachine";
 import { chickenRescueHomeRootStyle } from "./lib/chickenRescueHomeLayout";
 import { closePortal, useMinigameSession } from "lib/portal";
 import { ChickenRescueHomeHUD } from "./components/ChickenRescueHomeHUD";
@@ -34,10 +34,10 @@ export const ChickenRescueHome: React.FC = () => {
     null,
   );
 
-  const coinsLeft = coinsFromMinigame(minigame);
-  const nuggets = minigame.balances.Nugget ?? 0;
-  const canStartBasic = coinsLeft >= 1;
-  const canStartAdvanced = nuggets >= 1;
+  const wormsLeft = wormsFromMinigame(minigame);
+  const chickenFeet = minigame.balances.ChickenFeet ?? 0;
+  const canStartBasic = wormsLeft >= 1;
+  const canStartAdvanced = chickenFeet >= 1;
 
   const productionUrl = sunflowerLandChickenRescueDashboardUrl();
 
@@ -124,7 +124,7 @@ export const ChickenRescueHome: React.FC = () => {
                         </Label>
                       </div>
                       <p className="text-xs mt-0.5 opacity-85 leading-snug">
-                        Find Chooks.
+                        Find chooks.
                       </p>
                     </div>
                   </ButtonPanel>

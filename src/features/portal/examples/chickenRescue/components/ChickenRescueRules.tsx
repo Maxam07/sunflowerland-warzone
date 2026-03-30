@@ -76,7 +76,7 @@ export const ChickenRescueRules: React.FC<Props> = ({
           }}
           disabled={coinsLeft <= 0}
         >
-          Basic Run (1 Coin)
+          Basic Run (1 Worm)
         </Button>
         <Button
           className="mt-1 whitespace-nowrap capitalize"
@@ -84,7 +84,7 @@ export const ChickenRescueRules: React.FC<Props> = ({
             onStartAdvanced();
           }}
         >
-          Advanced Run (1 Nugget)
+          Advanced Run (1 Worm Ball)
         </Button>
       </div>
     </>

@@ -1,47 +1,33 @@
-import type { MinigameSessionResponse } from "lib/portal";
+import type { MinigameRuntimeState, ProducingEntry } from "lib/portal/processAction";
 
-type Producing = MinigameSessionResponse["minigame"]["producing"];
-
-export type GoblinCoinJob = {
+export type WormDropJob = {
   id: string;
-  completesAt: number;
+  outputToken: string;
   startedAt: number;
-  /** Matches `ProduceRule.requires` when the job was started (which chicken line). */
+  completesAt: number;
   requires?: string;
 };
 
-export function coinProducingJobs(producing: Producing): GoblinCoinJob[] {
+export function wormDropJobs(
+  producing: MinigameRuntimeState["producing"],
+): WormDropJob[] {
   return Object.entries(producing)
-    .filter(([, j]) => j.outputToken === "Coin")
+    .filter(([, j]: [string, ProducingEntry]) => j.outputToken === "Worm")
     .map(([id, j]) => ({
       id,
-      completesAt: j.completesAt,
+      outputToken: j.outputToken,
       startedAt: j.startedAt,
+      completesAt: j.completesAt,
       requires: j.requires,
     }));
 }
 
-export function goblinCoinCookProgressPercent(
-  job: GoblinCoinJob,
+export function wormDropCookProgressPercent(
+  job: WormDropJob,
   now: number,
 ): number {
   const total = job.completesAt - job.startedAt;
-  if (total <= 0) {
-    return 100;
-  }
-  return Math.min(100, Math.max(0, ((now - job.startedAt) / total) * 100));
-}
-
-export function formatTimeLeftMs(ms: number): string {
-  if (ms <= 0) {
-    return "0:00";
-  }
-  const totalSec = Math.ceil(ms / 1000);
-  const h = Math.floor(totalSec / 3600);
-  const m = Math.floor((totalSec % 3600) / 60);
-  const s = totalSec % 60;
-  if (h > 0) {
-    return `${h}h ${m}m`;
-  }
-  return `${m}:${s.toString().padStart(2, "0")}`;
+  if (total <= 0) return 100;
+  const elapsed = now - job.startedAt;
+  return Math.min(100, Math.max(0, (elapsed / total) * 100));
 }

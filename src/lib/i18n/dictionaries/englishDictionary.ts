@@ -5665,49 +5665,49 @@ const minigame: Record<Minigame, string> = {
   "minigame.missionComplete": "Mission complete",
   "minigame.missionFailed": "Mission failed",
   "minigame.attemptsRemaining": "attempts left",
-  "minigame.coinsRemaining": "coins left",
-  "minigame.noCoinsRemaining": "No coins remaining",
-  "minigame.youHaveRunOutOfCoins": "You have no Coins left for a live run.",
-  "minigame.spendCluckcoinForCoin": "Spend 1 Cluckcoin for 1 Coin (daily limit)",
-  "minigame.goblinChickenTitle": "Goblin Chicken",
+  "minigame.coinsRemaining": "worms left",
+  "minigame.noCoinsRemaining": "No worms remaining",
+  "minigame.youHaveRunOutOfCoins": "You have no worms left for a live run.",
+  "minigame.spendCluckcoinForCoin": "Spend 1 Golden Nugget for 5 worms",
+  "minigame.goblinChickenTitle": "Wormery",
   "minigame.goblinChickenBody":
-    "Each Goblin Chicken can run an 8-hour timer. When it finishes, collect 3 Coins. You own {{count}} Goblin Chicken(s).",
-  "minigame.collectGoblinCoins": "Collect 3 Coins",
-  "minigame.startNextCoinDrop": "Start next coin drop",
-  "minigame.buyGoblinChicken": "Buy Goblin Chicken (5 Cluckcoin)",
+    "Each wormery can run a timer. When it finishes, collect 3 worms. You own {{count}} wormery slot(s).",
+  "minigame.collectGoblinCoins": "Collect 3 worms",
+  "minigame.startNextCoinDrop": "Start next worm drop",
+  "minigame.buyGoblinChicken": "Buy Moss Wormery (15 Golden Nuggets)",
   "minigame.coinDropCooking": "Dropping… {{time}} left",
   "minigame.coinChickenReadyInModal":
-    "{{count}} coins will be ready in {{time}}.",
+    "{{count}} worms will be ready in {{time}}.",
   "minigame.coinChickenCollectFlash": "+{{count}}",
   "minigame.coinChickenHomeTileAriaLabel":
-    "Collect coins or manage coin production",
-  "minigame.coinChickenIntroStart": "Start coin drop",
-  "minigame.goblinChickensOwned": "Goblin Chickens: {{count}}",
+    "Collect worms or manage worm production",
+  "minigame.coinChickenIntroStart": "Start worm drop",
+  "minigame.goblinChickensOwned": "Wormeries: {{count}}",
   "minigame.coop": "Hungry goblin",
   "minigame.coopChooks": "Chooks: {{count}}",
-  "minigame.coopNuggets": "Nuggets: {{count}}",
+  "minigame.coopNuggets": "Chicken Feet: {{count}}",
   "minigame.feedChook": "Feed goblin",
   "minigame.feedGoblinPrompt": "Would you like to feed the goblin?",
   "minigame.feedGoblinOffer":
-    "It costs {{chookCost}} Chooks. After a short wait, you will receive 1 nugget.",
+    "It costs {{chookCost}} chooks. After a short wait, you will receive Chicken Feet (×1).",
   "minigame.chooksScoreHud": "Chooks: {{count}}",
   "minigame.chickenRescueRunComplete":
-    "Congratulations! You rescued {{rescued}} chooks and earned {{earned}} Chooks for the hungry goblin.",
-  "minigame.collectNugget": "Collect nugget",
-  "minigame.nuggetReady": "Your nugget is ready to collect.",
+    "Congratulations! You rescued {{rescued}} chooks and earned {{earned}} chooks.",
+  "minigame.collectNugget": "Collect chicken feet",
+  "minigame.nuggetReady": "Your Chicken Feet are ready to collect.",
   "minigame.nuggetCooking": "Cooking… {{seconds}}s left",
-  "minigame.cluckcoinMarketplaceTitle": "Cluckcoin",
+  "minigame.cluckcoinMarketplaceTitle": "Golden Nuggets",
   "minigame.cluckcoinLimitedSwap":
-    "For a limited time you can swap Nuggets for Cluckcoin in this minigame: 1 Nugget = 1 Cluckcoin.",
+    "Trade Golden Chooks for Golden Nuggets in this minigame at a fixed rate.",
   "minigame.cluckcoinMarketplaceDescription":
-    "You can also buy and sell Cluckcoin on the Sunflower Land marketplace with other players.",
-  "minigame.swapNuggetForCluckcoin": "Swap 1 Nugget for 1 Cluckcoin",
+    "You can also trade Golden Nuggets and other resources on the Sunflower Land marketplace with other players.",
+  "minigame.swapNuggetForCluckcoin": "Swap 1 Golden Chook for 1 Golden Nugget",
   "minigame.continueToMarketplace": "Continue to marketplace",
-  "minigame.spendCluckcoinForAttempt": "Spend 1 Cluckcoin for 1 attempt",
+  "minigame.spendCluckcoinForAttempt": "Spend 1 Golden Nugget for 5 worms",
   "minigame.cluckcoinBalanceForUnlock":
-    "You have {{count}} Cluckcoin. Spend one to mint 1 Coin (once per UTC day).",
+    "You have {{count}} Golden Nuggets. Spend one to receive 5 worms.",
   "minigame.getCluckcoinOnMarketplace":
-    "You need Cluckcoin to mint Coins or buy Goblin Chickens. Tap the shop above to swap Nuggets or open the marketplace.",
+    "You need Golden Nuggets to buy wormeries and worm packs. Tap the shop in Sunflower Land or open the marketplace.",
   "minigame.claimFreeAttemptsTitle": "Daily free attempts",
   "minigame.claimFreeAttemptsBody":
     "You have not claimed today's free tries yet. Claim {{count}} play attempts to use on the minigame.",
@@ -5723,13 +5723,13 @@ const minigame: Record<Minigame, string> = {
   "minigame.shopReceiveLabel": "You receive",
   "minigame.shopBuyCoinsName": "Worms",
   "minigame.shopBuyCoinsListBlurb":
-    "Buy 5 Worms for 1 Golden Nugget.",
+    "Buy 5 worms for 1 Golden Nugget.",
   "minigame.shopBuyCoinsDetail":
     "Use Golden Nuggets to buy more worms for run attempts instantly.",
   "minigame.shopBuyCoinsPriceValue": "1 Golden Nugget",
-  "minigame.shopBuyCoinsReceiveValue": "5 Worms",
+  "minigame.shopBuyCoinsReceiveValue": "5 worms",
   "minigame.shopBuyCoinsConfirm":
-    "You will spend 1 Golden Nugget and receive 5 Worms.",
+    "You will spend 1 Golden Nugget and receive 5 worms.",
   "minigame.shopInsufficientCluckcoin1":
     "You need 1 Golden Nugget to purchase this.",
   "minigame.shopCluckcoinName": "Golden Nuggets",
@@ -5789,29 +5789,29 @@ const minigame: Record<Minigame, string> = {
     "You need 500 Golden Nuggets to purchase this.",
   "minigame.shopGoldenChookExchangeName": "Golden Chook Exchange",
   "minigame.shopGoldenChookExchangeListBlurb":
-    "Burn 1 Golden Chook to instantly receive 1 Golden Nugget.",
+    "Trade 1 Golden Chook for 1 Golden Nugget.",
   "minigame.shopGoldenChookExchangeDetail":
     "Trade Golden Chooks into Golden Nuggets at a fixed rate in the minigame inventory.",
   "minigame.shopGoldenChookExchangePriceValue": "1 Golden Chook",
   "minigame.shopGoldenChookExchangeReceiveValue": "1 Golden Nugget",
   "minigame.shopGoldenChookExchangeConfirm":
-    "You will burn 1 Golden Chook and receive 1 Golden Nugget.",
+    "You will spend 1 Golden Chook and receive 1 Golden Nugget.",
   "minigame.shopInsufficientGoldenChook":
     "You need 1 Golden Chook to exchange.",
   "minigame.shopNuggetSwapName": "Chicken Feet Exchange",
   "minigame.shopNuggetSwapListBlurb":
-    "Swap 50 Chook for 1 Chicken Feet instantly.",
+    "Swap 50 chooks for 1 Chicken Feet instantly.",
   "minigame.shopNuggetSwapDetail":
-    "Convert Chook directly into Chicken Feet with no timer.",
-  "minigame.shopNuggetSwapPriceValue": "50 Chook",
+    "Convert chooks directly into Chicken Feet with no timer.",
+  "minigame.shopNuggetSwapPriceValue": "50 chooks",
   "minigame.shopNuggetSwapReceiveValue": "1 Chicken Feet",
   "minigame.shopNuggetSwapConfirm":
-    "You will burn 50 Chook and receive 1 Chicken Feet instantly.",
+    "You will burn 50 chooks and receive 1 Chicken Feet instantly.",
   "minigame.shopInsufficientChooks50":
-    "You need 50 Chook to exchange.",
+    "You need 50 chooks to exchange.",
   "minigame.marketplaceTeaserTitle": "Player marketplace",
   "minigame.marketplaceTeaserDescription":
-    "Buy and sell Cluckcoin and other resources with players on Sunflower Land.",
+    "Buy and sell Golden Nuggets and other resources with players on Sunflower Land.",
 };
 
 export const easterEggTerms: Record<EasterEggKeys, string> = {

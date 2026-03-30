@@ -1,7 +1,7 @@
 import { CONFIG } from "lib/config";
 
 /**
- * Opens Sunflower Land marketplace for Cluckcoin. Set
+ * Opens Sunflower Land marketplace for Golden Nugget (minigame tradeable). Set
  * `VITE_CLUCKCOIN_MARKETPLACE_RESOURCE_ID` to the resources collection id when
  * the tradeable exists; otherwise opens the resources marketplace index.
  */

@@ -2,34 +2,36 @@ import type { MinigameSessionResponse } from "lib/portal";
 import { emptyMinigameState } from "lib/portal/processAction";
 import { runtimeToMinigameSession } from "lib/portal/runtimeHelpers";
 
-/** Must match sunflower-land-api `CHICKEN_RESCUE_BOOTSTRAP_COIN_JOB_ID`. */
-export const CHICKEN_RESCUE_BOOTSTRAP_COIN_JOB_ID =
-  "bootstrap-goblin-coin-0" as const;
+/** Must match sunflower-land-api `CHICKEN_RESCUE_BOOTSTRAP_WORMS_JOB_ID`. */
+export const CHICKEN_RESCUE_BOOTSTRAP_WORMS_JOB_ID =
+  "bootstrap-wormery-worms-0" as const;
 
 /** Offline dev: generous balances for local testing (no API). */
 const CHICKEN_RESCUE_OFFLINE_TEST_BALANCE = 1000;
 
-/** Currency / misc only — chickens besides the first are earned in play. */
 const CHICKEN_RESCUE_OFFLINE_TEST_BALANCE_KEYS = [
-  "Coin",
-  "Cluckcoin",
+  "Worm",
+  "GoldenNugget",
   "Chook",
-  "Nugget",
+  "ChickenFeet",
   "GoldenChook",
   "LIVE_GAME",
   "ADVANCED_GAME",
+  "Wormery_2",
+  "Wormery_3",
+  "Wormery_4",
 ] as const;
 
-export function coinsFromMinigame(
+export function wormsFromMinigame(
   minigame: MinigameSessionResponse["minigame"],
 ): number {
-  return minigame.balances.Coin ?? 0;
+  return minigame.balances.Worm ?? 0;
 }
 
-export function goblinChickensFromMinigame(
+export function wormeriesFromMinigame(
   minigame: MinigameSessionResponse["minigame"],
 ): number {
-  return minigame.balances.GoblinChicken ?? 0;
+  return minigame.balances.Wormery ?? 0;
 }
 
 /** Initial session for offline Chicken Rescue (mirrors server bootstrap). */
@@ -40,12 +42,12 @@ export function createChickenRescueOfflineMinigame(
   for (const key of CHICKEN_RESCUE_OFFLINE_TEST_BALANCE_KEYS) {
     base.balances[key] = CHICKEN_RESCUE_OFFLINE_TEST_BALANCE;
   }
-  base.balances.GoblinChicken = 1;
-  base.producing[CHICKEN_RESCUE_BOOTSTRAP_COIN_JOB_ID] = {
-    outputToken: "Coin",
+  base.balances.Wormery = 1;
+  base.producing[CHICKEN_RESCUE_BOOTSTRAP_WORMS_JOB_ID] = {
+    outputToken: "Worm",
     startedAt: now - 1,
     completesAt: now,
-    requires: "GoblinChicken",
+    requires: "Wormery",
   };
   return runtimeToMinigameSession(base);
 }
@@ -54,6 +56,9 @@ export function createChickenRescueOfflineMinigame(
 export function chooksForScore(score: number): number {
   return Math.min(100, Math.max(0, Math.floor(score)));
 }
+
+/** @deprecated Use `chooksForScore` */
+export const grubsForScore = chooksForScore;
 
 export function hasLiveGame(
   minigame: MinigameSessionResponse["minigame"],

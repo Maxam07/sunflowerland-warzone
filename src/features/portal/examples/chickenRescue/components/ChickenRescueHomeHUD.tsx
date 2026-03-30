@@ -13,28 +13,28 @@ export const ChickenRescueHomeHUD: React.FC = () => {
 
   const chooks = minigame.balances.Chook ?? 0;
   const goldenChooks = minigame.balances.GoldenChook ?? 0;
-  const cluckcoin = minigame.balances.Cluckcoin ?? 0;
-  const nuggets = minigame.balances.Nugget ?? 0;
-  const coins = minigame.balances.Coin ?? 0;
+  const goldenNuggets = minigame.balances.GoldenNugget ?? 0;
+  const chickenFeet = minigame.balances.ChickenFeet ?? 0;
+  const worms = minigame.balances.Worm ?? 0;
 
   return (
     <div className="absolute top-4 right-4 z-20 flex items-start gap-3 pointer-events-none">
       <div className="flex flex-col items-end gap-1 flex-shrink-0 pointer-events-auto">
         <Box
           image={chickenFeetIcon}
-          count={new Decimal(nuggets)}
+          count={new Decimal(chickenFeet)}
           showCountIfZero
           className="flex-shrink-0"
         />
         <Box
           image={goldenNuggetIcon}
-          count={new Decimal(cluckcoin)}
+          count={new Decimal(goldenNuggets)}
           showCountIfZero
           className="flex-shrink-0"
         />
         <Box
           image={wormIcon}
-          count={new Decimal(coins)}
+          count={new Decimal(worms)}
           showCountIfZero
           className="flex-shrink-0"
         />
