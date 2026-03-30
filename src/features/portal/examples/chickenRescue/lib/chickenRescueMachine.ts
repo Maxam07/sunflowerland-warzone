@@ -45,7 +45,7 @@ export function createChickenRescueOfflineMinigame(
     outputToken: "Coin",
     startedAt: now - 1,
     completesAt: now,
-    capByBalance: "GoblinChicken",
+    requires: "GoblinChicken",
   };
   return runtimeToMinigameSession(base);
 }

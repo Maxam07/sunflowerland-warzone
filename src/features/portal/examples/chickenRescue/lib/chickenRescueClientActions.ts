@@ -14,8 +14,7 @@ export const CHICKEN_RESCUE_CLIENT_ACTIONS: Record<
     produce: {
       Coin: {
         msToComplete: SEVEN_HOURS_MS,
-        limit: 999,
-        capByBalance: "FatChicken",
+        requires: "FatChicken",
       },
     },
   },
@@ -53,7 +52,7 @@ export const CHICKEN_RESCUE_CLIENT_ACTIONS: Record<
       Coin: {
         msToComplete: EIGHT_HOURS_MS,
         limit: 999,
-        capByBalance: "LoveChicken",
+        requires: "LoveChicken",
       },
     },
   },
@@ -67,7 +66,7 @@ export const CHICKEN_RESCUE_CLIENT_ACTIONS: Record<
       Coin: {
         msToComplete: EIGHT_HOURS_MS,
         limit: 999,
-        capByBalance: "AlienChicken",
+        requires: "AlienChicken",
       },
     },
   },
@@ -81,7 +80,7 @@ export const CHICKEN_RESCUE_CLIENT_ACTIONS: Record<
       Coin: {
         msToComplete: EIGHT_HOURS_MS,
         limit: 999,
-        capByBalance: "RoosterChicken",
+        requires: "RoosterChicken",
       },
     },
   },

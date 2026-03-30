@@ -11,7 +11,7 @@ export type MinigameSessionResponse = {
         outputToken: string;
         startedAt: number;
         completesAt: number;
-        capByBalance?: string;
+        requires?: string;
       }
     >;
     activity: number;

@@ -17,12 +17,13 @@ export type RequireRule = { amount: number };
 
 export type ProduceRule = {
   msToComplete: number;
-  limit: number;
+  /** Max concurrent jobs with this `outputToken` across all lanes. Omit for no global cap. */
+  limit?: number;
   /**
-   * When set, count of active jobs with this `outputToken` must stay **below**
-   * `balances[capByBalance]` before a new job can start (e.g. Kale timers ≤ GiantKale count).
+   * When set, count of active jobs with this `outputToken` **and** the same `requires` tag
+   * must stay **below** `balances[requires]` before a new job can start.
    */
-  capByBalance?: string;
+  requires?: string;
 };
 
 export type CollectRule = { amount: number };
@@ -52,7 +53,7 @@ export type ProducingEntry = {
   startedAt: number;
   completesAt: number;
   /** When set, ties this job to a balance line (e.g. which chicken type owns the timer). */
-  capByBalance?: string;
+  requires?: string;
 };
 
 export type DailyMintBucket = {
@@ -227,19 +228,6 @@ function applyBurns(
   return undefined;
 }
 
-function coinJobsOnLine(
-  producing: MinigameRuntimeState["producing"],
-  outputToken: string,
-  line: string | undefined,
-): number {
-  return Object.values(producing).filter((p) => {
-    if (p.outputToken !== outputToken) return false;
-    if (line === undefined) return true;
-    const jobLine = p.capByBalance ?? "FatChicken";
-    return jobLine === line;
-  }).length;
-}
-
 function applyProduce(
   balances: Record<string, number>,
   producing: MinigameRuntimeState["producing"],
@@ -251,19 +239,18 @@ function applyProduce(
     const activeGlobal = Object.values(producing).filter(
       (p) => p.outputToken === outputToken,
     ).length;
-    if (activeGlobal >= rule.limit) {
+    if (rule.limit !== undefined && activeGlobal >= rule.limit) {
       return { error: `Production limit reached for ${outputToken}` };
     }
-    if (rule.capByBalance !== undefined) {
-      const cap = getBalance(balances, rule.capByBalance);
-      const activeOnLine = coinJobsOnLine(
-        producing,
-        outputToken,
-        rule.capByBalance,
-      );
-      if (activeOnLine >= cap) {
+    if (rule.requires !== undefined) {
+      const activeForLane = Object.values(producing).filter(
+        (p) =>
+          p.outputToken === outputToken && p.requires === rule.requires,
+      ).length;
+      const cap = getBalance(balances, rule.requires);
+      if (activeForLane >= cap) {
         return {
-          error: `Not enough ${rule.capByBalance} capacity for new ${outputToken} production`,
+          error: `Not enough ${rule.requires} capacity for new ${outputToken} production`,
         };
       }
     }
@@ -272,9 +259,7 @@ function applyProduce(
       outputToken,
       startedAt: now,
       completesAt: now + rule.msToComplete,
-      ...(rule.capByBalance !== undefined
-        ? { capByBalance: rule.capByBalance }
-        : {}),
+      ...(rule.requires !== undefined ? { requires: rule.requires } : {}),
     };
     return { producingId: id };
   }
