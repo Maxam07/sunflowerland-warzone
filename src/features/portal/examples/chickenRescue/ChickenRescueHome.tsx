@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { flushSync } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "components/ui/Modal";
 import { ButtonPanel, Panel } from "components/ui/Panel";
@@ -36,15 +37,21 @@ export const ChickenRescueHome: React.FC = () => {
 
   const startBasicRun = () => {
     const ok = dispatchAction({ action: actionIds.startBasic });
+    console.log("[CR-run-debug] startBasicRun after dispatch", { ok });
     if (ok) {
-      navigate("/game?run=basic");
+      flushSync(() => {
+        navigate("/game?run=basic");
+      });
     }
   };
 
   const startAdvancedRun = () => {
     const ok = dispatchAction({ action: actionIds.startAdvanced });
+    console.log("[CR-run-debug] startAdvancedRun after dispatch", { ok });
     if (ok) {
-      navigate("/game?run=advanced");
+      flushSync(() => {
+        navigate("/game?run=advanced");
+      });
     }
   };
 

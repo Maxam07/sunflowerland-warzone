@@ -53,7 +53,7 @@ export function createChickenRescueOfflineMinigame(
   return runtimeToMinigameSession(base);
 }
 
-/** Chooks minted on WIN; matches server ranged mint max (100). */
+/** Chooks minted on GAMEOVER; matches server ranged mint max (100). */
 export function chooksForScore(score: number): number {
   return Math.min(100, Math.max(0, Math.floor(score)));
 }
@@ -70,5 +70,5 @@ export function hasLiveGame(
   );
 }
 
-/** Run length on /game after START (seconds). */
+/** Run length on /game after START_GAME (seconds). */
 export const GAME_SECONDS = 60;

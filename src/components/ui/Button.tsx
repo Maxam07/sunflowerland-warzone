@@ -21,7 +21,7 @@ export const Button: React.FC<Props> = ({
   onClick,
   disabled,
   className,
-  type,
+  type = "button",
   longPress = false,
   longPressInterval = 50,
 }) => {

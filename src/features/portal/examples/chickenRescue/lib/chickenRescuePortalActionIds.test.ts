@@ -7,34 +7,28 @@ describe("resolveChickenRescuePortalActionIds", () => {
       CHICKEN_RESCUE_CLIENT_ACTIONS as Record<string, unknown>,
     );
     expect(ids).toEqual({
-      startBasic: "START",
-      loseBasic: "LOSE",
-      winBasic: "WIN",
+      startBasic: "START_GAME",
+      gameOverBasic: "GAMEOVER",
       startAdvanced: "START_ADVANCED_GAME",
-      loseAdvanced: "LOSE_ADVANCED_GAME",
-      winAdvanced: "WIN_ADVANCED_GAME",
+      gameOverAdvanced: "ADVANCED_GAMEOVER",
     });
   });
 
   it("resolves numeric editor keys by rule shape", () => {
-    const { START, LOSE, WIN, START_ADVANCED_GAME, LOSE_ADVANCED_GAME, WIN_ADVANCED_GAME, ...rest } =
+    const { START_GAME, GAMEOVER, START_ADVANCED_GAME, ADVANCED_GAMEOVER, ...rest } =
       CHICKEN_RESCUE_CLIENT_ACTIONS;
     const remapped: Record<string, unknown> = { ...rest };
-    remapped["101"] = START;
-    remapped["102"] = LOSE;
-    remapped["103"] = WIN;
+    remapped["101"] = START_GAME;
+    remapped["102"] = GAMEOVER;
     remapped["201"] = START_ADVANCED_GAME;
-    remapped["202"] = LOSE_ADVANCED_GAME;
-    remapped["203"] = WIN_ADVANCED_GAME;
+    remapped["202"] = ADVANCED_GAMEOVER;
 
     const ids = resolveChickenRescuePortalActionIds(remapped);
     expect(ids).toEqual({
       startBasic: "101",
-      loseBasic: "102",
-      winBasic: "103",
+      gameOverBasic: "102",
       startAdvanced: "201",
-      loseAdvanced: "202",
-      winAdvanced: "203",
+      gameOverAdvanced: "202",
     });
   });
 });

@@ -2,24 +2,22 @@ import type { MinigameActionDefinition } from "lib/portal/processAction";
 
 /**
  * Resolved from `session.actions` so the portal works when the editor/API use
- * numeric string keys (e.g. `"12"`) instead of semantic names (`START`, `WIN`).
+ * numeric string keys (e.g. `"12"`) instead of semantic names (`START_GAME`, `GAMEOVER`).
  */
 export type ChickenRescuePortalActionIds = {
   startBasic: string;
-  loseBasic: string;
-  winBasic: string;
+  /** Basic run end: mint chook count `"1"` (0–100), burn `LIVE_GAME`. */
+  gameOverBasic: string;
   startAdvanced: string;
-  loseAdvanced: string;
-  winAdvanced: string;
+  /** Advanced run end: mint `"1"` / `"2"` (golden), burn `ADVANCED_GAME`. */
+  gameOverAdvanced: string;
 };
 
 const DEFAULT_IDS: ChickenRescuePortalActionIds = {
-  startBasic: "START",
-  loseBasic: "LOSE",
-  winBasic: "WIN",
+  startBasic: "START_GAME",
+  gameOverBasic: "GAMEOVER",
   startAdvanced: "START_ADVANCED_GAME",
-  loseAdvanced: "LOSE_ADVANCED_GAME",
-  winAdvanced: "WIN_ADVANCED_GAME",
+  gameOverAdvanced: "ADVANCED_GAMEOVER",
 };
 
 function asDef(raw: unknown): MinigameActionDefinition | null {
@@ -79,24 +77,8 @@ function matchesStartBasic(def: MinigameActionDefinition): boolean {
   return true;
 }
 
-/** burn LIVE_GAME x1 only */
-function matchesLoseBasic(def: MinigameActionDefinition): boolean {
-  if (!noProduceCollect(def)) {
-    return false;
-  }
-  if (def.mint && Object.keys(def.mint).length > 0) {
-    return false;
-  }
-  const b = def.burn;
-  if (!b) {
-    return false;
-  }
-  const bk = Object.keys(b);
-  return bk.length === 1 && bk[0] === "LIVE_GAME" && b.LIVE_GAME?.amount === 1;
-}
-
 /** ranged mint `"1"`, burn LIVE_GAME x1, no mint `"2"` */
-function matchesWinBasic(def: MinigameActionDefinition): boolean {
+function matchesGameOverBasic(def: MinigameActionDefinition): boolean {
   if (!noProduceCollect(def)) {
     return false;
   }
@@ -136,28 +118,8 @@ function matchesStartAdvanced(def: MinigameActionDefinition): boolean {
   return true;
 }
 
-/** burn ADVANCED_GAME x1 only */
-function matchesLoseAdvanced(def: MinigameActionDefinition): boolean {
-  if (!noProduceCollect(def)) {
-    return false;
-  }
-  if (def.mint && Object.keys(def.mint).length > 0) {
-    return false;
-  }
-  const b = def.burn;
-  if (!b) {
-    return false;
-  }
-  const bk = Object.keys(b);
-  return (
-    bk.length === 1 &&
-    bk[0] === "ADVANCED_GAME" &&
-    b.ADVANCED_GAME?.amount === 1
-  );
-}
-
 /** ranged mint `"1"` + `"2"`, burn ADVANCED_GAME x1 */
-function matchesWinAdvanced(def: MinigameActionDefinition): boolean {
+function matchesGameOverAdvanced(def: MinigameActionDefinition): boolean {
   if (!noProduceCollect(def)) {
     return false;
   }
@@ -205,22 +167,20 @@ export function resolveChickenRescuePortalActionIds(
 ): ChickenRescuePortalActionIds {
   return {
     startBasic: resolveOne(actions, DEFAULT_IDS.startBasic, matchesStartBasic),
-    loseBasic: resolveOne(actions, DEFAULT_IDS.loseBasic, matchesLoseBasic),
-    winBasic: resolveOne(actions, DEFAULT_IDS.winBasic, matchesWinBasic),
+    gameOverBasic: resolveOne(
+      actions,
+      DEFAULT_IDS.gameOverBasic,
+      matchesGameOverBasic,
+    ),
     startAdvanced: resolveOne(
       actions,
       DEFAULT_IDS.startAdvanced,
       matchesStartAdvanced,
     ),
-    loseAdvanced: resolveOne(
+    gameOverAdvanced: resolveOne(
       actions,
-      DEFAULT_IDS.loseAdvanced,
-      matchesLoseAdvanced,
-    ),
-    winAdvanced: resolveOne(
-      actions,
-      DEFAULT_IDS.winAdvanced,
-      matchesWinAdvanced,
+      DEFAULT_IDS.gameOverAdvanced,
+      matchesGameOverAdvanced,
     ),
   };
 }

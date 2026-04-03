@@ -1,7 +1,7 @@
 import type { MutableRefObject } from "react";
 
 export type ChickenRescueRescueMeta = {
-  /** Advanced run: rescued a golden chook (counts toward WIN_ADVANCED_GAME GoldenChook). */
+  /** Advanced run: rescued a golden chook (counts toward ADVANCED_GAMEOVER token `"2"`). */
   golden?: boolean;
 };
 

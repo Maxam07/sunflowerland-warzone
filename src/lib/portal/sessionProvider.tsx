@@ -5,6 +5,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
+import { flushSync } from "react-dom";
 import { getUrl } from "./url";
 import type { MinigameSessionResponse } from "./types";
 import { postPlayerEconomyAction } from "./api";
@@ -76,9 +77,28 @@ export function MinigameSessionProvider({
         },
       );
       if (!next.ok) {
+        console.error("[ChickenRescue] dispatchAction optimistic update failed", {
+          action: input.action,
+          error: next.error,
+          amounts: input.amounts,
+          itemId: input.itemId,
+          configuredActions: Object.keys(bootstrap.actions ?? {}),
+        });
         return false;
       }
-      setPlayerEconomy(next.playerEconomy);
+      /**
+       * Commit optimistic state before the caller runs `navigate()` in the same
+       * tick. Otherwise the /game route mounts while context still has the
+       * pre-action economy and redirects away (no LIVE_GAME yet).
+       */
+      flushSync(() => {
+        setPlayerEconomy(next.playerEconomy);
+      });
+      console.log("[CR-run-debug] dispatchAction optimistic committed", {
+        action: input.action,
+        LIVE_GAME: next.playerEconomy.balances.LIVE_GAME,
+        ADVANCED_GAME: next.playerEconomy.balances.ADVANCED_GAME,
+      });
 
       if (!getUrl()) {
         return true;
@@ -95,8 +115,16 @@ export function MinigameSessionProvider({
           setPlayerEconomy(normalizeMinigameFromApi(res.playerEconomy));
         },
         (err) => {
+          const message = err instanceof Error ? err.message : String(err);
+          console.error("[ChickenRescue] dispatchAction API request failed", {
+            action: input.action,
+            amounts: input.amounts,
+            itemId: input.itemId,
+            message,
+            error: err,
+          });
           setPlayerEconomy(rollback);
-          setApiError(err instanceof Error ? err.message : String(err));
+          setApiError(message);
         },
       );
       return true;
@@ -120,6 +148,18 @@ export function MinigameSessionProvider({
           itemId: input.itemId,
         });
         if (!next.ok) {
+          if (applied === 0) {
+            console.error(
+              "[ChickenRescue] dispatchMinigameActionsSequential optimistic failed (first step)",
+              {
+                action: input.action,
+                error: next.error,
+                amounts: input.amounts,
+                itemId: input.itemId,
+                configuredActions: Object.keys(bootstrap.actions ?? {}),
+              },
+            );
+          }
           break;
         }
         current = next.playerEconomy;
@@ -128,7 +168,14 @@ export function MinigameSessionProvider({
       if (applied === 0) {
         return false;
       }
-      setPlayerEconomy(current);
+      flushSync(() => {
+        setPlayerEconomy(current);
+      });
+      console.log("[CR-run-debug] dispatchMinigameActionsSequential committed", {
+        applied,
+        LIVE_GAME: current.balances.LIVE_GAME,
+        ADVANCED_GAME: current.balances.ADVANCED_GAME,
+      });
 
       if (!getUrl()) {
         return true;
@@ -143,6 +190,15 @@ export function MinigameSessionProvider({
             itemId: input.itemId,
           });
           if (!step.ok) {
+            console.error(
+              "[ChickenRescue] dispatchMinigameActionsSequential API replay optimistic failed",
+              {
+                action: input.action,
+                error: step.error,
+                amounts: input.amounts,
+                itemId: input.itemId,
+              },
+            );
             break;
           }
           try {
@@ -155,8 +211,19 @@ export function MinigameSessionProvider({
             });
             state = normalizeMinigameFromApi(res.playerEconomy);
           } catch (err) {
+            const message = err instanceof Error ? err.message : String(err);
+            console.error(
+              "[ChickenRescue] dispatchMinigameActionsSequential API request failed",
+              {
+                action: input.action,
+                amounts: input.amounts,
+                itemId: input.itemId,
+                message,
+                error: err,
+              },
+            );
             setPlayerEconomy(state);
-            setApiError(err instanceof Error ? err.message : String(err));
+            setApiError(message);
             return;
           }
         }

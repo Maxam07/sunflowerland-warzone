@@ -48,18 +48,31 @@ export const ChickenRescueGamePage: React.FC = () => {
     defaultPhaserHandlers(),
   ) as ChickenRescuePhaserApiRef;
 
+  const runQuery = searchParams.get("run");
+
   const runType: ChickenRescueRunType =
-    searchParams.get("run") === "advanced" ||
-    ((playerEconomy.balances.ADVANCED_GAME ?? 0) > 0 &&
-      searchParams.get("run") !== "basic")
+    runQuery === "advanced" ||
+    ((playerEconomy.balances.ADVANCED_GAME ?? 0) > 0 && runQuery !== "basic")
       ? "advanced"
       : "basic";
 
   useEffect(() => {
+    const startedFromHome = runQuery === "basic" || runQuery === "advanced";
+    console.log("[CR-run-debug] GamePage redirect guard", {
+      runQuery,
+      startedFromHome,
+      hasLive: hasLiveGame(playerEconomy),
+      LIVE_GAME: playerEconomy.balances.LIVE_GAME,
+      ADVANCED_GAME: playerEconomy.balances.ADVANCED_GAME,
+    });
+    if (startedFromHome) {
+      return;
+    }
     if (!hasLiveGame(playerEconomy)) {
+      console.log("[CR-run-debug] GamePage redirect -> /home (no run query)");
       navigate("/home", { replace: true });
     }
-  }, [playerEconomy, navigate]);
+  }, [playerEconomy, navigate, runQuery]);
 
   useEffect(() => {
     scoreRef.current = score;
@@ -94,28 +107,40 @@ export const ChickenRescueGamePage: React.FC = () => {
     const isAdvanced = runType === "advanced";
     const chooks = chooksForScore(final);
     const won = chooks > 0 || (isAdvanced && finalGolden > 0);
-    const ok = won
-      ? dispatchAction({
-          action: isAdvanced ? actionIds.winAdvanced : actionIds.winBasic,
-          amounts: isAdvanced
-            ? { "1": chooks, "2": finalGolden }
-            : { "1": chooks },
-        })
-      : dispatchAction({
-          action: isAdvanced ? actionIds.loseAdvanced : actionIds.loseBasic,
-        });
+    const endAction = isAdvanced
+      ? actionIds.gameOverAdvanced
+      : actionIds.gameOverBasic;
+    const ok = dispatchAction({
+      action: endAction,
+      amounts: isAdvanced
+        ? { "1": chooks, "2": finalGolden }
+        : { "1": chooks },
+    });
     if (ok) {
       // Stay inside the iframe on /home so the minigame API can finish and the
       // player can start another run. Closing the parent iframe races the save.
       navigate("/home", { replace: true });
+    } else {
+      console.error("[ChickenRescue] Continue: dispatchAction returned false", {
+        won,
+        runType: isAdvanced ? "advanced" : "basic",
+        actionAttempted: endAction,
+        score: final,
+        chooksForPayout: chooks,
+        goldenCount: finalGolden,
+        amounts: isAdvanced
+          ? { "1": chooks, "2": finalGolden }
+          : { "1": chooks },
+        LIVE_GAME: playerEconomy.balances.LIVE_GAME,
+        ADVANCED_GAME: playerEconomy.balances.ADVANCED_GAME,
+      });
     }
   }, [
-    actionIds.loseAdvanced,
-    actionIds.loseBasic,
-    actionIds.winAdvanced,
-    actionIds.winBasic,
+    actionIds.gameOverAdvanced,
+    actionIds.gameOverBasic,
     dispatchAction,
     navigate,
+    playerEconomy.balances,
     runType,
   ]);
 
