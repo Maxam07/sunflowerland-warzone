@@ -1,7 +1,7 @@
 import React from "react";
 
-import { ChickenRescueApp } from "./examples/chickenRescue/ChickenRescue";
+import { WarzoneApp } from "./sunflowerlandWarzone/Warzone";
 
 export const PortalApp: React.FC = () => {
-  return <ChickenRescueApp />;
+  return <WarzoneApp />;
 };

@@ -5655,6 +5655,7 @@ const minigame: Record<Minigame, string> = {
   "minigame.festivalOfColors.mission": "Find the paint bombs!",
   "minigame.swipeToMove": "Swipe to move around",
   "minigame.arrowKeysToMove": "Use WASD or arrow keys to move around",
+  "minigame.baseWarning": "WARNING: Base under attack!",
   "minigame.noAttemptsRemaining": "No attempts remaining",
   "minigame.unlimitedAttempts": "Unlimited attempts",
   "minigame.sflRequired": "SFL required",
@@ -5690,19 +5691,19 @@ const minigame: Record<Minigame, string> = {
   "minigame.feedGoblinPrompt": "Would you like to feed the goblin?",
   "minigame.feedGoblinOffer":
     "It costs {{chookCost}} chooks. After a short wait, you will receive Chicken Feet (×1).",
-  "minigame.chooksScoreHud": "Chooks: {{count}}",
-  "minigame.chickenRescueRunComplete":
+  "minigame.warzoneScoreHud": "Eliminated: {{count}}",
+  "minigame.warzoneRunComplete":
     "Congratulations! You rescued {{rescued}} chooks and earned {{earned}} chooks.",
-  "minigame.chickenRescue.collectChooksTitle": "Collect chooks",
-  "minigame.chickenRescue.welcomeBody":
-    "Pssst, are you looking for chooks? Use your worms and chicken feet to attract and catch them. Shops and wormeries are in Sunflower Land.",
-  "minigame.chickenRescue.gameOver": "Game over",
-  "minigame.chickenRescue.resultsFoundChooks":
-    "Congratulations, you found some chooks.",
-  "minigame.chickenRescue.resultsNoChooks":
-    "Bad luck, you didn't catch any chooks.",
-  "minigame.chickenRescue.foundChooksLine": "You found {{count}} chooks.",
-  "minigame.chickenRescue.foundGoldenChooksLine":
+  "minigame.warzone.title": "Eliminate enemy",
+  "minigame.warzone.welcomeBody":
+    "Welcome, warrior. Take this axe and strike down the enemy to weaken their forces.",
+  "minigame.warzone.gameOver": "Game over",
+  "minigame.warzone.resultsFoundChooks":
+    "Well done, warrior, you've weakened the enemy forces.",
+  "minigame.warzone.resultsNoChooks":
+    "The enemy was too strong, warrior. You have fallen.",
+  "minigame.warzone.foundChooksLine": "You eliminated {{count}} enemies.",
+  "minigame.warzone.foundGoldenChooksLine":
     "You found {{count}} golden chooks.",
   "minigame.collectNugget": "Collect chicken feet",
   "minigame.nuggetReady": "Your Chicken Feet are ready to collect.",

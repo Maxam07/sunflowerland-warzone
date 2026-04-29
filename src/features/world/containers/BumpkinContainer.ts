@@ -6,6 +6,9 @@ import { Player } from "../types/Room";
 import { NPCName, acknowledgedNPCs } from "lib/npcs";
 import { getAnimationUrl } from "../lib/animations";
 import { CONFIG } from "lib/config";
+import { Direction } from "features/portal/sunflowerlandWarzone/WarzoneScene";
+import { WarzoneScene } from "features/portal/sunflowerlandWarzone/WarzoneScene";
+import { PlayerBullet } from "features/portal/sunflowerlandWarzone/container/PlayerBullet";
 
 const SQUARE_WIDTH = 16;
 
@@ -61,7 +64,20 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private frontAuraKey: string | undefined;
   private frontAuraAnimationKey: string | undefined;
   private backAuraAnimationKey: string | undefined;
-  private direction: "left" | "right" = "right";
+  private swimmingAnimationKey: string | undefined;
+  private runAnimationKey: string | undefined;
+
+  direction:  "left" | "right" | "up" | "down";
+
+  facingDirection: Direction = "up";
+  isHurting = false;
+  lastShootTime = 0;
+  bullet: PlayerBullet | null = null;
+  nextShootTime = 0;
+  canMove = true;
+  freezeTimer?: Phaser.Time.TimerEvent;
+  isSwimming = false;
+  isRunning = false;
 
   constructor({
     scene,
@@ -166,6 +182,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.walkingAnimationKey = `${keyName}-bumpkin-walking`;
     this.digAnimationKey = `${keyName}-bumpkin-dig`;
     this.drillAnimationKey = `${keyName}-bumpkin-drilling`;
+    this.swimmingAnimationKey = `${keyName}-bumpkin-swim`;
+    this.runAnimationKey = `${keyName}-bumpkin-run`;
 
     if (scene.textures.exists(this.idleSpriteKey)) {
       // If we have idle sheet then we can create the idle animation and set the sprite up straight away
@@ -278,7 +296,61 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       });
     }
 
+    if (scene.textures.exists(this.swimmingAnimationKey)) {
+      this.createSwimAnimation();
+    } else {
+      const url = getAnimationUrl(this.clothing, "swimming");
+      const swimLoader = scene.load.spritesheet(this.swimmingAnimationKey, url, {
+        frameWidth: 96,
+        frameHeight: 64,
+      });
+      swimLoader.once(Phaser.Loader.Events.COMPLETE, () => {
+        this.createSwimAnimation();
+        swimLoader.removeAllListeners();
+      });
+    }
+
+    if (scene.textures.exists(this.runAnimationKey)) {
+        this.createRunpAnimation();
+      } else {
+        const url = getAnimationUrl(this.clothing, "run");
+        const jumpLoader = scene.load.spritesheet(this.runAnimationKey, url, {
+          frameWidth: 96,
+          frameHeight: 64,
+        });
+        jumpLoader.once(Phaser.Loader.Events.COMPLETE, () => {
+          this.createRunpAnimation();
+          jumpLoader.removeAllListeners();
+        });
+      }
+
     scene.load.start();
+  }
+
+  private createSwimAnimation() {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.swimmingAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(
+        this.swimmingAnimationKey as string,
+      ),
+      frameRate: 20,
+      repeat: 0,
+    });
+  }
+
+    private createRunpAnimation() {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.runAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(
+        this.runAnimationKey as string,
+      ),
+      frameRate: 20,
+      repeat: -1,
+    });
   }
 
   private createDrillAnimation() {
@@ -719,6 +791,39 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
   }
 
+  public swim() {
+    if (
+      this.sprite?.anims &&
+      this.scene?.anims.exists(this.swimmingAnimationKey as string) &&
+      this.sprite?.anims.getName() !== this.swimmingAnimationKey
+    ) {
+      try {
+        this.sprite.anims.play(this.swimmingAnimationKey as string, true);
+        this.scene.sound.play("swimming", { volume: 0.1 });
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log("Bumpkin Container: Error playing drill animation: ", e);
+      }
+    }
+  }
+
+  public run() {
+    this.isRunning = true;
+    if (
+      this.sprite?.anims &&
+      this.scene?.anims.exists(this.runAnimationKey as string) &&
+      this.sprite?.anims.getName() !== this.runAnimationKey
+    ) {
+      try {
+        this.sprite.anims.play(this.runAnimationKey as string, true);
+        this.scene.sound.play("run", { volume: 0.1 });
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log("Bumpkin Container: Error playing drill animation: ", e);
+      }
+    }
+  }
+
   public dig() {
     if (
       this.sprite?.anims &&
@@ -752,6 +857,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   public walk() {
+    if (this.isRunning) return;
+
     if (
       this.sprite?.anims &&
       this.scene?.anims.exists(this.walkingAnimationKey as string) &&
@@ -911,5 +1018,53 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     this.alert?.destroy();
+  }
+
+  public shoot(direction: Direction) {
+    if (!this.active) return;
+    const scene = this.scene as WarzoneScene;
+
+    // ❌ still has active bullet
+    if (this.bullet && this.bullet.active) return;
+
+    let angle = 0;
+
+    this.facingDirection = direction;
+
+    switch (this.facingDirection) {
+      case "left":
+        angle = Math.PI;
+        break;
+      case "right":
+        angle = 0;
+        break;
+      case "up":
+        angle = -Math.PI / 2;
+        break;
+      case "down":
+        angle = Math.PI / 2;
+        break;
+    }
+
+    const offset = 16;
+    const spawnX = this.x + Math.cos(angle) * offset;
+    const spawnY = this.y + Math.sin(angle) * offset;
+
+    const bullet = new PlayerBullet({
+      x: spawnX,
+      y: spawnY,
+      scene: this.scene as WarzoneScene,
+      owner: "player"
+    });
+
+    scene.playerBullets.add(bullet);
+    // 🔥 store bullet reference
+    this.bullet = bullet;
+    // scene.playerBullets.add(bullet);
+    bullet.fire(angle, 200);
+    // 🔥 clear when destroyed
+    bullet.once("destroy", () => {
+      this.bullet = null;
+    });
   }
 }

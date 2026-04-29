@@ -3858,15 +3858,15 @@ export type Minigame =
   | "minigame.feedChook"
   | "minigame.feedGoblinPrompt"
   | "minigame.feedGoblinOffer"
-  | "minigame.chooksScoreHud"
-  | "minigame.chickenRescueRunComplete"
-  | "minigame.chickenRescue.collectChooksTitle"
-  | "minigame.chickenRescue.welcomeBody"
-  | "minigame.chickenRescue.gameOver"
-  | "minigame.chickenRescue.resultsFoundChooks"
-  | "minigame.chickenRescue.resultsNoChooks"
-  | "minigame.chickenRescue.foundChooksLine"
-  | "minigame.chickenRescue.foundGoldenChooksLine"
+  | "minigame.warzoneScoreHud"
+  | "minigame.warzoneRunComplete"
+  | "minigame.warzone.title"
+  | "minigame.warzone.welcomeBody"
+  | "minigame.warzone.gameOver"
+  | "minigame.warzone.resultsFoundChooks"
+  | "minigame.warzone.resultsNoChooks"
+  | "minigame.warzone.foundChooksLine"
+  | "minigame.warzone.foundGoldenChooksLine"
   | "minigame.collectNugget"
   | "minigame.nuggetReady"
   | "minigame.nuggetCooking"
@@ -3946,7 +3946,8 @@ export type Minigame =
   | "minigame.shopNuggetSwapConfirm"
   | "minigame.shopInsufficientChooks50"
   | "minigame.marketplaceTeaserTitle"
-  | "minigame.marketplaceTeaserDescription";
+  | "minigame.marketplaceTeaserDescription"
+  | "minigame.baseWarning";
 
 export type KitchenKeys = "kitchen.oilRemaining";
 

@@ -11,6 +11,12 @@ const randomXOffset = Math.random() * 60;
 const randomYOffset = Math.random() * 20;
 
 export const SPAWNS: () => SpawnLocation = () => ({
+  sunflowerland_warzone: {
+    default: {
+      x: 200,
+      y: 200,
+    },
+  },
   chicken_rescue: {
     default: {
       x: 200,
